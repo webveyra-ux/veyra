@@ -27,7 +27,7 @@ jobs:
       - name: Assemble static showcase bundle
         run: |
           mkdir -p _pages/images _pages/logo _pages/icons
-          cp docs-site/index.html _pages/index.html
+          cp -r docs-site/* _pages/
           cp -r public/images/* _pages/images/
           cp -r public/logo/* _pages/logo/
           cp -r public/icons/* _pages/icons/

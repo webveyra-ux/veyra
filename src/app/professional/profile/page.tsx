@@ -34,6 +34,8 @@ export default function ProfessionalProfileEditorPage() {
   const [serviceAreas, setServiceAreas] = React.useState('');
   const [serviceRadiusKm, setServiceRadiusKm] = React.useState('15');
   const [languages, setLanguages] = React.useState('English');
+  const [productsUsed, setProductsUsed] = React.useState('');
+  const [productsSummary, setProductsSummary] = React.useState('');
   const [profileStatus, setProfileStatus] = React.useState<'draft' | 'active' | 'paused'>('active');
   const [selectedCategories, setSelectedCategories] = React.useState<string[]>([]);
   const [selectedSubcategories, setSelectedSubcategories] = React.useState<string[]>([]);
@@ -65,6 +67,8 @@ export default function ProfessionalProfileEditorPage() {
         setServiceAreas(pro.serviceAreas.join(', '));
         setServiceRadiusKm(String(pro.serviceRadiusKm));
         setLanguages(pro.languages.join(', '));
+        setProductsUsed((pro.productsUsed || []).join(', '));
+        setProductsSummary(pro.productsSummary || '');
         if (pro.profileStatus !== 'suspended') setProfileStatus(pro.profileStatus);
         setSelectedCategories(pro.categories);
         setSelectedSubcategories(pro.subcategories);
@@ -105,6 +109,11 @@ export default function ProfessionalProfileEditorPage() {
           .split(',')
           .map((s) => s.trim())
           .filter(Boolean),
+        productsUsed: productsUsed
+          .split(',')
+          .map((s) => s.trim())
+          .filter(Boolean),
+        productsSummary: productsSummary.trim(),
         categories: selectedCategories,
         subcategories: selectedSubcategories,
         serviceModes,
@@ -163,7 +172,7 @@ export default function ProfessionalProfileEditorPage() {
               required
             />
             <Input
-              label="Studio / Business Name"
+              label="Shop / Studio Name"
               value={businessName}
               onChange={(e) => setBusinessName(e.target.value)}
             />
@@ -186,7 +195,22 @@ export default function ProfessionalProfileEditorPage() {
             </Select>
           </div>
 
-          <Textarea label="Bio" value={bio} onChange={(e) => setBio(e.target.value)} rows={4} />
+          <Textarea label="Brief Description / Bio" value={bio} onChange={(e) => setBio(e.target.value)} rows={4} />
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <Input
+              label="Products & Brands Used (comma-separated)"
+              placeholder="e.g. MAC Cosmetics, Huda Beauty, Organic Sojat Henna"
+              value={productsUsed}
+              onChange={(e) => setProductsUsed(e.target.value)}
+            />
+            <Input
+              label="Product & Hygiene Notes"
+              placeholder="e.g. Dermatologically tested, single-use applicators"
+              value={productsSummary}
+              onChange={(e) => setProductsSummary(e.target.value)}
+            />
+          </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <Input label="City" value={city} onChange={(e) => setCity(e.target.value)} required />

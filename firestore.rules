@@ -365,6 +365,50 @@ service cloud.firestore {
     }
 
     // -------------------------------------------------------------------------
+    // DIRECT SERVICE BOOKINGS (CLIENT-INITIATED WITH ROLE & OWNERSHIP GUARDS)
+    // -------------------------------------------------------------------------
+    match /serviceBookings/{bookingId} {
+      allow read: if hasAdminClaim()
+        || (isSignedIn() && (resource.data.customerId == uid() || resource.data.professionalId == uid()));
+
+      // Customer must be signed in to book a professional's service.
+      allow create: if isSignedIn()
+        && isNotSuspended()
+        && request.resource.data.customerId == uid()
+        && request.resource.data.professionalId != uid()
+        && request.resource.data.status == 'pending'
+        && request.resource.data.price is number
+        && request.resource.data.price >= 0
+        && exists(/databases/$(database)/documents/professionalProfiles/$(request.resource.data.professionalId));
+
+      allow update: if (
+        // Customer cancels their own pending/confirmed booking
+        isSignedIn()
+        && isNotSuspended()
+        && resource.data.customerId == uid()
+        && resource.data.status in ['pending', 'confirmed']
+        && request.resource.data.customerId == resource.data.customerId
+        && request.resource.data.professionalId == resource.data.professionalId
+        && request.resource.data.price == resource.data.price
+        && request.resource.data.status == 'cancelled'
+      ) || (
+        // Professional confirms, declines, or completes a booking for their shop
+        isSignedIn()
+        && isNotSuspended()
+        && resource.data.professionalId == uid()
+        && request.resource.data.customerId == resource.data.customerId
+        && request.resource.data.professionalId == resource.data.professionalId
+        && request.resource.data.price == resource.data.price
+        && (
+          (resource.data.status == 'pending' && request.resource.data.status in ['confirmed', 'declined'])
+          || (resource.data.status == 'confirmed' && request.resource.data.status in ['completed', 'cancelled'])
+        )
+      ) || hasAdminLevel(['super_admin', 'operations_admin', 'support_admin']);
+
+      allow delete: if false;
+    }
+
+    // -------------------------------------------------------------------------
     // REVIEWS
     // -------------------------------------------------------------------------
     match /reviews/{reviewId} {

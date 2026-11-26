@@ -1,21 +1,14 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>VEYRA — Discover. Connect. Create.</title>
-  <meta
-    name="description"
-    content="One request. Multiple professionals. Better choices. VEYRA connects customers with independent beauty, styling, and creative professionals. A product of Damayanti Network."
-  />
-  <meta name="theme-color" content="#7655D9" />
+  <meta name="description" content="Discover verified beauty, styling, and creative professionals on VEYRA. Browse shops, services, prices, and products used — sign in only when you are ready to book." />
   <link rel="icon" type="image/svg+xml" href="./logo/veyra-mark.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
-    rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
       --primary: #7655D9;
@@ -26,1119 +19,661 @@
       --peach: #FFF1E7;
       --mint: #E8F7F0;
       --warm-white: #FFFCF8;
-      --surface: #FFFFFF;
       --text-primary: #242331;
       --text-secondary: #6B6879;
       --border: #E9E5EF;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --shadow-sm: 0 4px 16px rgba(36, 35, 49, 0.05);
+      --shadow-md: 0 14px 36px rgba(91, 62, 181, 0.12);
     }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
       margin: 0;
-      background-color: var(--warm-white);
+      background: var(--warm-white);
       color: var(--text-primary);
       font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
       -webkit-font-smoothing: antialiased;
-      line-height: 1.55;
     }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    button, input, select, textarea { font-family: inherit; }
+    .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+    .muted { color: var(--text-secondary); font-size: 13px; margin: 0; }
 
     /* Header */
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 40;
-      background: rgba(255, 252, 248, 0.95);
-      backdrop-filter: blur(10px);
+    .site-header {
+      position: sticky; top: 0; z-index: 40;
+      background: rgba(255, 252, 248, 0.94);
+      backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
     }
+    .header-inner {
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      min-height: 70px;
+    }
+    .brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; cursor: pointer; }
+    .brand img { width: 36px; height: 36px; }
+    .brand-name { font-family: 'Cormorant Garamond', serif; font-size: 26px; letter-spacing: 0.04em; line-height: 1; }
+    .brand-tag { font-size: 11px; color: var(--text-secondary); font-weight: 500; display: block; }
+    .nav-links { display: flex; align-items: center; gap: 20px; font-size: 14px; font-weight: 500; color: var(--text-secondary); }
+    .nav-links a:hover, .nav-links button:hover { color: var(--primary-dark); }
+    .nav-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .nav-toggle { display: none; border: 1px solid var(--border); background: #fff; border-radius: 10px; padding: 8px 10px; cursor: pointer; font-size: 16px; }
+    .nav-drawer { display: none; border-top: 1px solid var(--border); background: var(--warm-white); padding: 14px 20px 18px; }
+    .nav-drawer.open { display: grid; gap: 10px; }
+    .nav-drawer a, .nav-drawer button { padding: 8px 0; font-size: 15px; font-weight: 500; text-align: left; background: none; border: none; cursor: pointer; color: var(--text-primary); }
 
-    .topbar-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      height: 68px;
+    .user-chip {
+      padding: 6px 12px; border-radius: 999px; background: var(--lavender-bg);
+      color: var(--primary-dark); font-size: 12px; font-weight: 600; max-width: 150px;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
     }
 
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .brand img {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-    }
-
-    .brand-title {
-      font-family: 'Fraunces', Georgia, serif;
-      font-size: 22px;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      line-height: 1;
-    }
-
-    .brand-sub {
-      font-size: 10px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--primary);
-      margin-top: 2px;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 28px;
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--text-secondary);
-    }
-
-    .nav-links a:hover {
-      color: var(--text-primary);
-    }
-
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .mobile-menu-btn {
-      display: none;
-      align-items: center;
-      justify-content: center;
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      background: #fff;
-      color: var(--text-primary);
-      cursor: pointer;
-      font-size: 18px;
-    }
-
-    .mobile-drawer {
-      display: none;
-      border-top: 1px solid var(--border);
-      background: var(--warm-white);
-      padding: 14px 20px 18px;
-    }
-
-    .mobile-drawer.open {
-      display: grid;
-      gap: 10px;
-    }
-
-    .mobile-drawer a {
-      padding: 8px 4px;
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--text-primary);
-    }
-
+    /* Buttons */
     .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 11px 20px;
-      border-radius: 12px;
-      font-size: 14px;
-      font-weight: 600;
-      border: 1px solid transparent;
-      cursor: pointer;
-      transition: background-color 150ms ease, border-color 150ms ease;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 10px 18px; border-radius: 999px; font-size: 14px; font-weight: 600;
+      border: 1px solid transparent; cursor: pointer; transition: 0.18s ease;
     }
-
-    .btn-sm {
-      padding: 9px 16px;
-      font-size: 13px;
-    }
-
-    .btn-primary {
-      background: var(--primary);
-      color: #fff;
-    }
-
-    .btn-primary:hover {
-      background: var(--primary-dark);
-    }
-
-    .btn-outline {
-      background: #fff;
-      color: var(--text-primary);
-      border-color: var(--border);
-    }
-
-    .btn-outline:hover {
-      border-color: var(--primary);
-      background: var(--lavender-bg);
-    }
-
-    .btn-dark {
-      background: var(--text-primary);
-      color: #fff;
-    }
-
-    .btn-dark:hover {
-      background: #363448;
-    }
+    .btn-sm { padding: 7px 14px; font-size: 13px; }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-primary:hover { background: var(--primary-dark); }
+    .btn-soft { background: var(--soft-lavender); color: var(--primary-dark); }
+    .btn-soft:hover { background: #E3D6FF; }
+    .btn-ghost { background: #fff; border-color: var(--border); color: var(--text-primary); }
+    .btn-ghost:hover { border-color: var(--primary); color: var(--primary-dark); }
 
     /* Hero */
     .hero {
-      padding: 58px 0 68px;
-      border-bottom: 1px solid var(--border);
+      padding: 52px 0 42px;
+      background: radial-gradient(circle at 88% 12%, var(--soft-lavender) 0%, transparent 45%),
+                  radial-gradient(circle at 12% 85%, var(--blush) 0%, transparent 42%);
     }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 44px;
-      align-items: center;
+    .hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 36px; align-items: center; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 14px; border-radius: 999px;
+      background: var(--lavender-bg); color: var(--primary-dark);
+      font-size: 12px; font-weight: 600; border: 1px solid var(--border);
     }
-
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 14px;
-      border-radius: 999px;
-      background: var(--lavender-bg);
-      border: 1px solid var(--soft-lavender);
-      color: var(--primary-dark);
-      font-size: 12px;
-      font-weight: 600;
-    }
-
     h1 {
-      margin: 18px 0 16px;
-      font-family: 'Fraunces', Georgia, serif;
-      font-size: clamp(2.15rem, 4.3vw, 3.4rem);
-      font-weight: 600;
-      line-height: 1.08;
-      letter-spacing: -0.02em;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(36px, 5vw, 56px);
+      line-height: 1.06; margin: 14px 0 14px; font-weight: 700;
     }
-
-    .hero-copy {
-      color: var(--text-secondary);
-      font-size: 17px;
-      max-width: 580px;
-      margin: 0 0 24px;
+    .hero-sub { font-size: 16px; color: var(--text-secondary); max-width: 560px; margin: 0 0 22px; }
+    .hero-search {
+      display: flex; gap: 8px; padding: 6px; border-radius: 999px;
+      background: #fff; border: 1px solid var(--border); box-shadow: var(--shadow-sm);
+      max-width: 540px; margin-bottom: 18px;
     }
-
-    .search-shell {
-      display: flex;
-      gap: 8px;
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 7px;
-      box-shadow: 0 8px 28px rgba(36, 35, 49, 0.05);
-      margin-bottom: 20px;
-      max-width: 560px;
+    .hero-search input {
+      flex: 1; border: none; outline: none; padding: 8px 14px; font-size: 14px; background: transparent; min-width: 0;
     }
-
-    .search-shell input {
-      flex: 1;
-      border: 0;
-      outline: none;
-      background: transparent;
-      padding: 10px 12px;
-      font-family: inherit;
-      font-size: 14px;
-      color: var(--text-primary);
-      min-width: 0;
+    .hero-cta-row { display: flex; flex-wrap: wrap; gap: 10px; }
+    .hero-visual {
+      background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg);
+      padding: 12px; box-shadow: var(--shadow-md);
     }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .hero-frame {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 26px;
-      padding: 12px;
-      box-shadow: 0 18px 50px rgba(91, 62, 181, 0.09);
-    }
-
-    .hero-frame img {
-      display: block;
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      object-fit: cover;
-      border-radius: 18px;
-    }
-
-    .hero-highlights {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-top: 12px;
-    }
-
-    .hl-box {
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      padding: 10px;
-      text-align: center;
-      font-size: 11px;
-      color: var(--text-secondary);
-    }
-
-    .hl-box strong {
-      display: block;
-      font-size: 12px;
-      color: var(--text-primary);
-      margin-bottom: 2px;
-    }
-
-    .bg-blush { background: var(--blush); }
-    .bg-lavender { background: var(--lavender-bg); }
-    .bg-peach { background: var(--peach); }
-    .bg-mint { background: var(--mint); }
+    .hero-visual img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 14px; }
 
     /* Sections */
-    .section {
-      padding: 64px 0;
-    }
+    .section { padding: 52px 0; }
+    .section-soft { background: var(--lavender-bg); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .section-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; margin-bottom: 24px; }
+    .section-kicker { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--primary); margin: 0 0 6px; }
+    .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(28px, 3.4vw, 40px); line-height: 1.12; margin: 0; }
 
-    .section-white {
-      background: #fff;
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
+    /* Filters & Inputs */
+    .filter-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+    .filter-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+    .pill {
+      padding: 8px 14px; border-radius: 999px; font-size: 13px; font-weight: 600;
+      border: 1px solid var(--border); background: #fff; color: var(--text-secondary); cursor: pointer;
     }
-
-    .section-lavender {
-      background: rgba(245, 240, 255, 0.55);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
+    .pill.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .input, .select, .textarea {
+      width: 100%; padding: 10px 14px; border-radius: 12px; border: 1px solid var(--border);
+      background: #fff; font-size: 14px; color: var(--text-primary); outline: none;
     }
+    .input:focus, .select:focus, .textarea:focus { border-color: var(--primary); }
+    .field { display: grid; gap: 6px; }
+    .field label { font-size: 13px; font-weight: 600; color: var(--text-primary); }
 
-    .eyebrow {
-      margin: 0 0 6px;
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--primary);
-    }
-
-    .section-title {
-      margin: 0 0 10px;
-      font-family: 'Fraunces', Georgia, serif;
-      font-size: clamp(1.6rem, 3vw, 2.25rem);
-      font-weight: 600;
-      letter-spacing: -0.015em;
-    }
-
-    .section-desc {
-      margin: 0 0 28px;
-      color: var(--text-secondary);
-      max-width: 650px;
-      font-size: 15px;
-    }
-
-    /* Filter tabs */
-    .filter-bar {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 24px;
-    }
-
-    .filter-tabs {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .filter-btn {
-      padding: 7px 14px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: #fff;
-      color: var(--text-primary);
-      font-size: 13px;
-      font-weight: 500;
-      cursor: pointer;
-    }
-
-    .filter-btn.active {
-      background: var(--primary);
-      border-color: var(--primary);
-      color: #fff;
-    }
-
-    .filter-count {
-      font-size: 12px;
-      color: var(--text-secondary);
-    }
-
-    /* Category Grid */
-    .cat-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 16px;
-    }
-
+    /* Categories Grid */
+    .cat-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
     .cat-card {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      transition: transform 180ms ease, border-color 180ms ease;
+      background: #fff; border: 1px solid var(--border); border-radius: var(--radius-md);
+      overflow: hidden; cursor: pointer; transition: 0.2s ease; box-shadow: var(--shadow-sm);
     }
+    .cat-card:hover { transform: translateY(-3px); border-color: #D2C3F8; box-shadow: var(--shadow-md); }
+    .cat-card img { width: 100%; aspect-ratio: 4/3; object-fit: cover; }
+    .cat-card-body { padding: 12px; }
+    .cat-card-body h3 { margin: 0 0 4px; font-size: 15px; }
+    .cat-card-body p { margin: 0; font-size: 12px; color: var(--text-secondary); }
 
-    .cat-card:hover {
-      transform: translateY(-3px);
-      border-color: rgba(118, 85, 217, 0.5);
+    /* Professionals Grid */
+    .pro-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+    .pro-card {
+      background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg);
+      padding: 20px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; gap: 12px;
     }
+    .pro-card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+    .pro-card-top h3 { margin: 6px 0 2px; font-size: 18px; }
+    .pro-owner { margin: 0; font-size: 13px; color: var(--text-secondary); }
+    .pro-rating { padding: 4px 10px; border-radius: 999px; background: var(--peach); font-size: 12px; font-weight: 700; white-space: nowrap; }
+    .pro-headline { margin: 0; font-size: 14px; font-weight: 600; color: var(--primary-dark); }
+    .pro-bio { margin: 0; font-size: 13px; color: var(--text-secondary); }
+    .pro-products { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 12px; }
+    .pro-products span { padding: 3px 9px; border-radius: 999px; background: var(--lavender-bg); color: var(--primary-dark); font-weight: 500; }
+    .pro-card-foot { margin-top: auto; padding-top: 12px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .price-label { display: block; font-size: 11px; color: var(--text-secondary); }
+    .price-val { font-size: 16px; color: var(--primary-dark); }
 
-    .cat-card.hidden {
-      display: none;
+    .pro-badges { display: flex; flex-wrap: wrap; gap: 6px; }
+    .badge { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; background: var(--lavender-bg); color: var(--primary-dark); text-transform: capitalize; }
+    .badge-mint { background: var(--mint); color: #1A6B4A; }
+    .badge-peach { background: var(--peach); color: #8A4B18; }
+    .badge-lavender { background: var(--soft-lavender); color: var(--primary-dark); }
+
+    /* Dashboard & Cards */
+    .dash-wrap { padding: 40px 0 64px; }
+    .dash-header { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; margin-bottom: 24px; }
+    .dash-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 24px; align-items: start; }
+    .card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 22px; box-shadow: var(--shadow-sm); }
+    .card h3 { margin: 0 0 14px; font-size: 18px; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form-grid-full { grid-column: 1 / -1; }
+    .dash-row { display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; padding: 12px 0; border-bottom: 1px solid var(--border); }
+    .dash-row:last-child { border-bottom: none; }
+    .dash-row-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 24px; }
+    .kpi-card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px; }
+    .kpi-card strong { display: block; font-size: 26px; font-family: 'Cormorant Garamond', serif; color: var(--primary-dark); }
+    .empty-box { padding: 24px; border: 1px dashed var(--border); border-radius: var(--radius-md); text-align: center; color: var(--text-secondary); background: #fff; }
+    .info-banner { padding: 12px 16px; border-radius: 12px; background: var(--peach); color: #6E3A10; font-size: 13px; margin-bottom: 18px; }
+
+    /* Modals */
+    .modal-backdrop {
+      position: fixed; inset: 0; z-index: 60; background: rgba(36, 35, 49, 0.52);
+      display: none; align-items: center; justify-content: center; padding: 18px;
     }
-
-    .cat-card img {
-      width: 100%;
-      aspect-ratio: 4 / 3;
-      object-fit: cover;
-      background: var(--lavender-bg);
+    .modal-backdrop.open { display: flex; }
+    .modal-card {
+      background: #fff; border-radius: var(--radius-lg); width: 100%; max-width: 640px;
+      max-height: 90vh; overflow-y: auto; padding: 24px; position: relative; box-shadow: var(--shadow-md);
     }
-
-    .cat-body {
-      padding: 14px;
-      display: flex;
-      flex-direction: column;
-      flex: 1;
+    .modal-close {
+      position: absolute; top: 14px; right: 14px; border: 1px solid var(--border);
+      background: #fff; border-radius: 999px; width: 32px; height: 32px; cursor: pointer; font-weight: 700;
     }
+    .pro-modal-section { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--border); }
+    .pro-modal-section h4 { margin: 0 0 8px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--primary-dark); }
+    .chip-row { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip { padding: 5px 12px; border-radius: 999px; background: var(--lavender-bg); color: var(--primary-dark); font-size: 12px; font-weight: 600; }
+    .service-list { display: grid; gap: 10px; }
+    .service-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px; border: 1px solid var(--border); border-radius: 12px; }
+    .service-row-right { display: flex; align-items: center; gap: 10px; shrink: 0; }
+    .service-price { font-weight: 700; color: var(--primary-dark); }
+    .error-msg { color: #B42318; background: #FEF3F2; border: 1px solid #FECDCA; padding: 10px 12px; border-radius: 10px; font-size: 13px; }
 
-    .cat-name {
-      margin: 0 0 4px;
-      font-size: 14.5px;
-      font-weight: 600;
+    /* FAQ & Footer */
+    .faq-list { display: grid; gap: 10px; max-width: 820px; }
+    .faq-item { background: #fff; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; }
+    .faq-q { width: 100%; background: none; border: none; padding: 16px 18px; text-align: left; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; }
+    .faq-a { display: none; padding: 0 18px 16px; font-size: 14px; color: var(--text-secondary); }
+    .faq-item.open .faq-a { display: block; }
+    .site-footer { padding: 36px 0; border-top: 1px solid var(--border); background: #fff; font-size: 13px; color: var(--text-secondary); }
+    .footer-inner { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px; align-items: center; }
+    .footer-links { display: flex; flex-wrap: wrap; gap: 16px; }
+    .status-pill { font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 999px; }
+    .status-pill.ok { background: var(--mint); color: #1A6B4A; }
+    .status-pill.warn { background: var(--peach); color: #8A4B18; }
+
+    .toast {
+      position: fixed; bottom: 20px; right: 20px; z-index: 80;
+      background: var(--text-primary); color: #fff; padding: 12px 18px;
+      border-radius: 12px; font-size: 13px; font-weight: 500;
+      opacity: 0; pointer-events: none; transition: 0.2s ease; max-width: 340px;
     }
+    .toast.visible { opacity: 1; pointer-events: auto; }
+    .toast[data-tone="success"] { background: #1A6B4A; }
+    .toast[data-tone="error"] { background: #B42318; }
 
-    .cat-subs {
-      margin: 0 0 10px;
-      font-size: 12px;
-      color: var(--text-secondary);
-    }
-
-    .cat-modes {
-      margin-top: auto;
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--primary-dark);
-    }
-
-    .empty-filter {
-      display: none;
-      text-align: center;
-      padding: 36px 20px;
-      border-radius: 18px;
-      border: 1px dashed var(--border);
-      background: #fff;
-      color: var(--text-secondary);
-      font-size: 14px;
-    }
-
-    .empty-filter.visible {
-      display: block;
-    }
-
-    /* 4-Step Grid */
-    .steps-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 18px;
-    }
-
-    .card {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 24px;
-    }
-
-    .step-num {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 40px;
-      height: 40px;
-      border-radius: 12px;
-      font-family: 'Fraunces', Georgia, serif;
-      font-weight: 600;
-      color: var(--primary-dark);
-      margin-bottom: 14px;
-    }
-
-    .card h3 {
-      margin: 0 0 8px;
-      font-size: 16px;
-      font-weight: 600;
-    }
-
-    .card p {
-      margin: 0;
-      font-size: 13.5px;
-      color: var(--text-secondary);
-    }
-
-    .three-col {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-    }
-
-    .two-col {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
-    }
-
-    .spotlight-card {
-      border-radius: 24px;
-      padding: 32px;
-      border: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 18px;
-    }
-
-    .spotlight-card h3 {
-      margin: 10px 0 8px;
-      font-family: 'Fraunces', Georgia, serif;
-      font-size: 24px;
-      font-weight: 600;
-    }
-
-    .spotlight-card p {
-      margin: 0;
-      font-size: 14px;
-      color: var(--text-secondary);
-    }
-
-    .spotlight-list {
-      margin: 14px 0 0;
-      padding-left: 18px;
-      font-size: 13.5px;
-      color: var(--text-primary);
-      display: grid;
-      gap: 6px;
-    }
-
-    /* FAQ */
-    .faq-list {
-      max-width: 780px;
-      margin: 0 auto;
-      display: grid;
-      gap: 10px;
-    }
-
-    .faq-item {
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      background: var(--warm-white);
-      overflow: hidden;
-    }
-
-    .faq-q {
-      width: 100%;
-      padding: 16px 20px;
-      background: transparent;
-      border: 0;
-      text-align: left;
-      font-family: inherit;
-      font-size: 14.5px;
-      font-weight: 600;
-      color: var(--text-primary);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      cursor: pointer;
-    }
-
-    .faq-a {
-      display: none;
-      background: #fff;
-      border-top: 1px solid var(--border);
-      padding: 14px 20px 16px;
-      font-size: 14px;
-      color: var(--text-secondary);
-    }
-
-    .faq-item.open .faq-a {
-      display: block;
-    }
-
-    /* Footer */
-    .footer {
-      border-top: 1px solid var(--border);
-      background: #fff;
-      padding: 44px 0 32px;
-      font-size: 13.5px;
-      color: var(--text-secondary);
-    }
-
-    .footer-grid {
-      display: grid;
-      grid-template-columns: 1.4fr 1fr 1fr;
-      gap: 32px;
-      padding-bottom: 28px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .footer h4 {
-      margin: 0 0 12px;
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--text-primary);
-    }
-
-    .footer ul {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      display: grid;
-      gap: 8px;
-    }
-
-    .footer a:hover {
-      color: var(--primary);
-    }
-
-    .footer-bottom {
-      padding-top: 20px;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      font-size: 12px;
-    }
-
-    @media (max-width: 1024px) {
-      .hero-grid { grid-template-columns: 1fr; }
+    @media (max-width: 960px) {
+      .hero-grid, .dash-grid, .pro-grid { grid-template-columns: 1fr; }
       .cat-grid { grid-template-columns: repeat(3, 1fr); }
-      .steps-grid { grid-template-columns: repeat(2, 1fr); }
-      .three-col, .footer-grid { grid-template-columns: 1fr; }
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
     }
-
-    @media (max-width: 640px) {
-      .nav-links, .header-actions { display: none; }
-      .mobile-menu-btn { display: inline-flex; }
+    @media (max-width: 720px) {
+      .nav-links, .nav-actions { display: none; }
+      .nav-toggle { display: inline-flex; }
       .cat-grid { grid-template-columns: repeat(2, 1fr); }
-      .steps-grid, .two-col { grid-template-columns: 1fr; }
-      .hero { padding: 36px 0 44px; }
-      .search-shell { flex-direction: column; }
+      .form-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
-  <header class="topbar">
-    <div class="container topbar-inner">
-      <a href="#top" class="brand">
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#top" class="brand" data-nav-view="home">
         <img src="./logo/veyra-mark.svg" alt="VEYRA logo" />
-        <div>
-          <div class="brand-title">VEYRA</div>
-          <div class="brand-sub">Discover. Connect. Create.</div>
-        </div>
+        <span>
+          <span class="brand-name">VEYRA</span>
+          <span class="brand-tag">Discover. Connect. Create.</span>
+        </span>
       </a>
 
       <nav class="nav-links" aria-label="Primary">
-        <a href="#categories">Categories</a>
-        <a href="#how-it-works">How It Works</a>
-        <a href="#for-professionals">For Professionals</a>
-        <a href="#faq">FAQ</a>
+        <a href="#categoriesSection" data-nav-view="home">Categories</a>
+        <a href="#professionalsSection" data-nav-view="home">Professionals</a>
+        <a href="#faqSection" data-nav-view="home">FAQ</a>
+        <button type="button" style="background:none;border:none;cursor:pointer;font-size:14px;font-weight:500;color:inherit;" data-nav-view="pro">For Professionals</button>
+        <button type="button" style="background:none;border:none;cursor:pointer;font-size:14px;font-weight:500;color:inherit;" data-nav-view="admin">Admin</button>
       </nav>
 
-      <div class="header-actions">
-        <a href="#categories" class="btn btn-outline btn-sm">Explore Services</a>
-        <a href="#for-professionals" class="btn btn-primary btn-sm">Join as Professional</a>
-      </div>
-
-      <button
-        type="button"
-        class="mobile-menu-btn"
-        aria-label="Toggle navigation"
-        aria-expanded="false"
-        id="mobileMenuBtn"
-      >
-        &#9776;
-      </button>
+      <div class="nav-actions" id="navAuthSlot"></div>
+      <button type="button" class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
     </div>
 
-    <div class="mobile-drawer" id="mobileDrawer">
-      <a href="#categories">Service Categories</a>
-      <a href="#how-it-works">How VEYRA Works</a>
-      <a href="#for-professionals">For Customers &amp; Professionals</a>
-      <a href="#faq">Frequently Asked Questions</a>
+    <div class="nav-drawer" id="navDrawer">
+      <a href="#categoriesSection" data-nav-view="home">Service Categories</a>
+      <a href="#professionalsSection" data-nav-view="home">Browse Professionals</a>
+      <button type="button" data-nav-view="bookings">My Bookings</button>
+      <button type="button" data-nav-view="pro">Professional Studio Dashboard</button>
+      <button type="button" data-nav-view="admin">Admin Dashboard</button>
+      <button type="button" data-open-auth="signin">Sign In / Create Account</button>
     </div>
   </header>
 
-  <main id="top">
-    <!-- Hero -->
+  <!-- ==================== VIEW 1: USER MARKETPLACE ==================== -->
+  <main id="top" class="app-view" data-view="home">
     <section class="hero">
       <div class="container hero-grid">
         <div>
-          <span class="pill">One request. Multiple professionals. Better choices.</span>
+          <span class="eyebrow">One request. Multiple professionals. Better choices.</span>
           <h1>Find the right professional for what you imagine.</h1>
-          <p class="hero-copy">
-            VEYRA connects customers with independent beauty, styling, and creative service professionals. Share your vision and inspiration images once, compare tailored proposals side by side, and choose with confidence.
+          <p class="hero-sub">
+            Browse verified beauty, styling, and creative studios across 10 categories. Inspect their services, prices, and products used — sign in only when you are ready to book.
           </p>
-
-          <form class="search-shell" id="categorySearchForm">
-            <input
-              type="text"
-              id="categorySearchInput"
-              placeholder="Search makeup, mehendi, hair, interior design, photography..."
-              aria-label="Search service categories"
-            />
-            <button type="submit" class="btn btn-primary">Explore</button>
+          <form class="hero-search" id="heroSearchForm">
+            <input id="heroSearchInput" type="search" placeholder="Search makeup, mehendi, shop name, or brand used..." aria-label="Search services" />
+            <button type="submit" class="btn btn-primary btn-sm">Explore</button>
           </form>
-
-          <div class="hero-actions">
-            <a href="#categories" class="btn btn-primary">Browse 10 Categories</a>
-            <a href="#how-it-works" class="btn btn-outline">How VEYRA Works</a>
+          <div class="hero-cta-row">
+            <a href="#professionalsSection" class="btn btn-primary">Browse Professionals</a>
+            <button type="button" class="btn btn-soft" data-open-auth="register-pro">Register Your Shop / Studio</button>
           </div>
         </div>
-
-        <div>
-          <div class="hero-frame">
-            <img
-              src="./images/hero/hero-editorial.jpg"
-              alt="VEYRA editorial beauty and creative studio flatlay"
-            />
-          </div>
-          <div class="hero-highlights">
-            <div class="hl-box bg-blush">
-              <strong>10 Categories</strong>
-              Beauty &amp; Creative
-            </div>
-            <div class="hl-box bg-lavender">
-              <strong>Compare Quotes</strong>
-              Itemised Proposals
-            </div>
-            <div class="hl-box bg-peach">
-              <strong>Privacy First</strong>
-              Protected Addresses
-            </div>
-          </div>
+        <div class="hero-visual">
+          <img src="./images/hero/hero-editorial.jpg" alt="VEYRA curated beauty and creative studio" />
         </div>
       </div>
     </section>
 
-    <!-- Categories -->
-    <section id="categories" class="section">
+    <section class="section" id="categoriesSection">
       <div class="container">
-        <p class="eyebrow">Service Directory</p>
-        <h2 class="section-title">Explore by craft &amp; category</h2>
-        <p class="section-desc">
-          Discover independent specialists across beauty, personal styling, fashion, interiors, branding, and photography—available at home, in studio, or remotely.
-        </p>
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Marketplace Categories</p>
+            <h2 class="section-title">Explore 10 Curated Disciplines</h2>
+          </div>
+          <span class="muted" id="categoryCountLabel">Showing 10 categories</span>
+        </div>
+        <div class="filter-bar">
+          <div class="filter-pills">
+            <button type="button" class="pill active" data-cat-group="all">All Categories (10)</button>
+            <button type="button" class="pill" data-cat-group="beauty">Beauty &amp; Wellness (5)</button>
+            <button type="button" class="pill" data-cat-group="creative">Styling &amp; Creative (5)</button>
+          </div>
+          <input id="catSearchInput" class="input" style="max-width:260px;" type="search" placeholder="Filter categories..." aria-label="Filter categories" />
+        </div>
+        <div class="cat-grid" id="categoryGrid"></div>
+      </div>
+    </section>
+
+    <section class="section section-soft" id="professionalsSection">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Studios &amp; Independent Artists</p>
+            <h2 class="section-title">Browse Shops, Prices &amp; Products Used</h2>
+          </div>
+          <span class="status-pill warn" id="firebaseStatusBadge">Showcase Mode</span>
+        </div>
+
+        <div class="info-banner" id="directoryModeBanner" hidden>
+          Showing sample showcase studios. Connect your Firebase project in the <strong>Admin Dashboard</strong> to load live registered professionals and accept real customer bookings.
+        </div>
 
         <div class="filter-bar">
-          <div class="filter-tabs" role="tablist" aria-label="Filter categories">
-            <button type="button" class="filter-btn active" data-filter="all">All Categories (10)</button>
-            <button type="button" class="filter-btn" data-filter="beauty">Beauty &amp; Wellness (5)</button>
-            <button type="button" class="filter-btn" data-filter="creative">Styling &amp; Creative (5)</button>
-          </div>
-          <span class="filter-count" id="filterCount">Showing 10 categories</span>
+          <input id="proSearchInput" class="input" style="max-width:340px;" type="search" placeholder="Search shop name, service, city, or product brand..." aria-label="Search professionals" />
+          <select id="proFilterCategory" class="select" style="max-width:240px;" aria-label="Filter by category">
+            <option value="all">All Service Categories</option>
+            <option value="makeup">Makeup</option>
+            <option value="hair">Hair</option>
+            <option value="mehendi">Mehendi</option>
+            <option value="nails">Nails</option>
+            <option value="skincare-beauty">Skincare &amp; Beauty</option>
+            <option value="styling">Styling</option>
+            <option value="fashion-design">Fashion Design</option>
+            <option value="interior-design">Interior Design</option>
+            <option value="graphic-design">Graphic Design</option>
+            <option value="photography">Photography</option>
+          </select>
         </div>
 
-        <div class="cat-grid" id="categoryGrid">
-          <article class="cat-card" data-group="beauty" data-keywords="makeup bridal party engagement photoshoot everyday glam">
-            <img src="./images/categories/makeup.jpg" alt="Makeup" />
-            <div class="cat-body">
-              <h3 class="cat-name">Makeup</h3>
-              <p class="cat-subs">Bridal makeup, Party, Engagement, Photoshoot, Everyday</p>
-              <div class="cat-modes">At-home &middot; Studio</div>
-            </div>
-          </article>
-          <article class="cat-card" data-group="beauty" data-keywords="hair haircuts styling colouring treatments keratin">
-            <img src="./images/categories/hair.jpg" alt="Hair" />
-            <div class="cat-body">
-              <h3 class="cat-name">Hair</h3>
-              <p class="cat-subs">Haircuts, Hair styling, Colouring, Treatments</p>
-              <div class="cat-modes">At-home &middot; Studio</div>
-            </div>
-          </article>
-          <article class="cat-card" data-group="beauty" data-keywords="mehendi henna bridal traditional party custom designs">
-            <img src="./images/categories/mehendi.jpg" alt="Mehendi" />
-            <div class="cat-body">
-              <h3 class="cat-name">Mehendi</h3>
-              <p class="cat-subs">Bridal mehendi, Traditional, Party, Custom designs</p>
-              <div class="cat-modes">At-home &middot; Studio</div>
-            </div>
-          </article>
-          <article class="cat-card" data-group="beauty" data-keywords="nails nail art manicure pedicure extensions gel">
-            <img src="./images/categories/nails.jpg" alt="Nails" />
-            <div class="cat-body">
-              <h3 class="cat-name">Nails</h3>
-              <p class="cat-subs">Nail art, Manicure, Pedicure, Extensions</p>
-              <div class="cat-modes">At-home &middot; Studio</div>
-            </div>
-          </article>
-          <article class="cat-card" data-group="beauty" data-keywords="skincare beauty facials treatments glow grooming">
-            <img src="./images/categories/skincare-beauty.jpg" alt="Skincare and Beauty" />
-            <div class="cat-body">
-              <h3 class="cat-name">Skincare &amp; Beauty</h3>
-              <p class="cat-subs">Facials, Skincare services, Beauty treatments</p>
-              <div class="cat-modes">At-home &middot; Studio</div>
-            </div>
-          </article>
-          <article class="cat-card" data-group="creative" data-keywords="styling personal wardrobe fashion consultation">
-            <img src="./images/categories/styling.jpg" alt="Styling" />
-            <div class="cat-body">
-              <h3 class="cat-name">Styling</h3>
-              <p class="cat-subs">Personal styling, Wardrobe styling, Fashion consultation</p>
-              <div class="cat-modes">At-home &middot; Studio &middot; Remote</div>
-            </div>
-          </article>
-          <article class="cat-card" data-group="creative" data-keywords="fashion design custom outfit alterations tailoring bridal">
-            <img src="./images/categories/fashion-design.jpg" alt="Fashion Design" />
-            <div class="cat-body">
-              <h3 class="cat-name">Fashion Design</h3>
-              <p class="cat-subs">Custom designs, Outfit design, Alterations</p>
-              <div class="cat-modes">Studio &middot; Remote</div>
-            </div>
-          </article>
-          <article class="cat-card" data-group="creative" data-keywords="interior design residential commercial room decor">
-            <img src="./images/categories/interior-design.jpg" alt="Interior Design" />
-            <div class="cat-body">
-              <h3 class="cat-name">Interior Design</h3>
-              <p class="cat-subs">Residential interiors, Commercial interiors, Room design</p>
-              <div class="cat-modes">At-home &middot; Studio &middot; Remote</div>
-            </div>
-          </article>
-          <article class="cat-card" data-group="creative" data-keywords="graphic design logos branding posters digital invites">
-            <img src="./images/categories/graphic-design.jpg" alt="Graphic Design" />
-            <div class="cat-body">
-              <h3 class="cat-name">Graphic Design</h3>
-              <p class="cat-subs">Logos, Branding, Posters, Digital designs</p>
-              <div class="cat-modes">Remote &middot; Studio</div>
-            </div>
-          </article>
-          <article class="cat-card" data-group="creative" data-keywords="photography portraits weddings events product">
-            <img src="./images/categories/photography.jpg" alt="Photography" />
-            <div class="cat-body">
-              <h3 class="cat-name">Photography</h3>
-              <p class="cat-subs">Portraits, Weddings, Events, Product photography</p>
-              <div class="cat-modes">On-location &middot; Studio</div>
-            </div>
-          </article>
-        </div>
-
-        <div class="empty-filter" id="emptyFilter">
-          No categories match your search. <button type="button" class="btn btn-outline btn-sm" id="resetFilterBtn" style="margin-left:8px;">Show all 10 categories</button>
-        </div>
+        <div class="pro-grid" id="professionalsGrid"></div>
       </div>
     </section>
 
-    <!-- How VEYRA Works -->
-    <section id="how-it-works" class="section section-white">
+    <section class="section" id="faqSection">
       <div class="container">
-        <p class="eyebrow">How VEYRA Works</p>
-        <h2 class="section-title">From inspiration to confirmed booking in four clear steps</h2>
-        <p class="section-desc">
-          Stop messaging dozens of accounts and repeating your brief. Share your requirements once and receive structured quotes.
-        </p>
-
-        <div class="steps-grid">
-          <div class="card">
-            <div class="step-num bg-lavender">01</div>
-            <h3>Post Your Requirement</h3>
-            <p>Select your category, upload inspiration photos, and set your city, preferred date, service mode, and budget range.</p>
-          </div>
-          <div class="card">
-            <div class="step-num bg-blush">02</div>
-            <h3>Matched Pros Respond</h3>
-            <p>Suitable professionals in your area review your brief and send itemised proposals with clear inclusions and pricing.</p>
-          </div>
-          <div class="card">
-            <div class="step-num bg-peach">03</div>
-            <h3>Compare &amp; Message</h3>
-            <p>Compare portfolios, experience, inclusions, and schedules side by side, shortlist favourites, and chat directly.</p>
-          </div>
-          <div class="card">
-            <div class="step-num bg-mint">04</div>
-            <h3>Book &amp; Review</h3>
-            <p>Accept your chosen proposal to confirm your booking, track completion, and share a verified booking review.</p>
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Questions &amp; Answers</p>
+            <h2 class="section-title">Frequently Asked Questions</h2>
           </div>
         </div>
-      </div>
-    </section>
-
-    <!-- Trust Pillars -->
-    <section class="section section-lavender">
-      <div class="container">
-        <div class="three-col">
-          <div class="card">
-            <h3>Admin-Reviewed Verification</h3>
-            <p>Verified badges are awarded only after administrative review of submitted identification and practice credentials.</p>
-          </div>
-          <div class="card">
-            <h3>Address &amp; Contact Privacy</h3>
-            <p>Open requests share only city and locality details. Exact venue addresses remain protected until a booking is confirmed.</p>
-          </div>
-          <div class="card">
-            <h3>Booking-Verified Reviews</h3>
-            <p>Ratings and written reviews come exclusively from completed bookings—ensuring authentic, transparent feedback.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Customers & Professionals -->
-    <section id="for-professionals" class="section">
-      <div class="container">
-        <div class="two-col">
-          <div class="spotlight-card bg-lavender">
-            <div>
-              <span class="pill">For Customers</span>
-              <h3>Have an event, shoot, or makeover coming up?</h3>
-              <p>
-                Describe what you imagine once and let qualified artists, stylists, and designers come to you with clear, comparable proposals.
-              </p>
-              <ul class="spotlight-list">
-                <li>Attach moodboards and reference photos directly to your brief</li>
-                <li>Compare inclusions, exclusions, timelines, and total pricing</li>
-                <li>Keep your phone number and home address private until booked</li>
-              </ul>
-            </div>
-            <div>
-              <a href="#categories" class="btn btn-primary">Explore Categories</a>
-            </div>
-          </div>
-
-          <div class="spotlight-card bg-blush">
-            <div>
-              <span class="pill" style="background:#fff; color:#9D2E4D; border-color:#F7C7D3;">For Independent Professionals</span>
-              <h3>Grow your beauty, styling, or creative studio</h3>
-              <p>
-                Showcase your portfolio, define your travel radius and service modes, and receive customer briefs tailored to your specialty.
-              </p>
-              <ul class="spotlight-list">
-                <li>Curated image &amp; video portfolio with category tags</li>
-                <li>Flexible weekly hours, days off, and on-location or studio modes</li>
-                <li>Structured proposal builder with transparent terms</li>
-              </ul>
-            </div>
-            <div>
-              <a href="#how-it-works" class="btn btn-dark">See How Proposals Work</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- FAQ -->
-    <section id="faq" class="section section-white">
-      <div class="container">
-        <div style="text-align:center; margin-bottom:28px;">
-          <p class="eyebrow">Answers</p>
-          <h2 class="section-title">Frequently Asked Questions</h2>
-        </div>
-
         <div class="faq-list">
-          <div class="faq-item open">
-            <button type="button" class="faq-q">
-              <span>How does posting a request on VEYRA work?</span>
-              <span>+</span>
-            </button>
-            <div class="faq-a">
-              Share what you are imagining—select your category, upload reference photos, and specify your location, preferred date, service mode, and budget range. Suitable independent professionals respond with tailored proposals you can compare side by side.
-            </div>
+          <div class="faq-item">
+            <button type="button" class="faq-q" aria-expanded="false">Do customers need an account to browse VEYRA? <span>+</span></button>
+            <div class="faq-a">No. Customers can freely browse all 10 categories, inspect shop profiles, compare services and prices, and check the products each professional uses without logging in. Sign-in is only required when you confirm a booking.</div>
           </div>
           <div class="faq-item">
-            <button type="button" class="faq-q">
-              <span>What services are available on VEYRA?</span>
-              <span>+</span>
-            </button>
-            <div class="faq-a">
-              VEYRA covers 10 core categories: Makeup (bridal, party, engagement, photoshoot), Hair, Mehendi, Nails, Skincare &amp; Beauty, Styling, Fashion Design, Interior Design, Graphic Design, and Photography.
-            </div>
+            <button type="button" class="faq-q" aria-expanded="false">How do professionals register their shop and services? <span>+</span></button>
+            <div class="faq-a">Professionals can create an account under "Register Your Shop / Studio", enter their Shop or Studio Name, brief description, products &amp; brands used, and publish their services with prices in the Professional Dashboard.</div>
           </div>
           <div class="faq-item">
-            <button type="button" class="faq-q">
-              <span>Can professionals serve at-home, studio, and remote requests?</span>
-              <span>+</span>
-            </button>
-            <div class="faq-a">
-              Yes. Each professional sets their supported service modes—at-home / on-location, studio / salon visits, or remote consultations—along with their service areas and schedule.
-            </div>
-          </div>
-          <div class="faq-item">
-            <button type="button" class="faq-q">
-              <span>Is my street address or phone number shown publicly?</span>
-              <span>+</span>
-            </button>
-            <div class="faq-a">
-              No. Public listings and open requests display only city and locality information. Exact venue details are protected and shared only with the booked professional after a proposal is accepted.
-            </div>
-          </div>
-          <div class="faq-item">
-            <button type="button" class="faq-q">
-              <span>Are verification badges and reviews authentic?</span>
-              <span>+</span>
-            </button>
-            <div class="faq-a">
-              Yes. Verification badges appear only after administrative review of submitted credentials, and reviews can only be submitted for eligible completed bookings.
-            </div>
+            <button type="button" class="faq-q" aria-expanded="false">What services are available on VEYRA? <span>+</span></button>
+            <div class="faq-a">VEYRA covers 10 core categories: Makeup, Hair, Mehendi, Nails, Skincare &amp; Beauty, Styling, Fashion Design, Interior Design, Graphic Design, and Photography.</div>
           </div>
         </div>
       </div>
     </section>
   </main>
 
-  <footer class="footer">
+  <!-- ==================== VIEW 2: CUSTOMER BOOKINGS ==================== -->
+  <section class="app-view dash-wrap" data-view="bookings" hidden>
     <div class="container">
-      <div class="footer-grid">
+      <div class="dash-header">
         <div>
-          <div class="brand" style="margin-bottom:10px;">
-            <img src="./logo/veyra-mark.svg" alt="VEYRA logo" />
-            <div>
-              <div class="brand-title">VEYRA</div>
-              <div class="brand-sub">Discover. Connect. Create.</div>
-            </div>
-          </div>
-          <p style="margin:0 0 8px; max-width:360px;">
-            One request. Multiple professionals. Better choices. Connecting customers with independent beauty, styling, and creative professionals.
-          </p>
-          <p style="margin:0; font-size:12px; font-weight:600; color:var(--primary-dark);">
-            A product of Damayanti Network
-          </p>
+          <p class="section-kicker">Customer Portal</p>
+          <h2 class="section-title">My Service Bookings</h2>
         </div>
+        <button type="button" class="btn btn-soft" data-nav-view="home">← Back to Marketplace</button>
+      </div>
+      <div class="card" id="customerBookingsList"></div>
+    </div>
+  </section>
 
+  <!-- ==================== VIEW 3: PROFESSIONAL DASHBOARD ==================== -->
+  <section class="app-view dash-wrap" data-view="pro" hidden>
+    <div class="container">
+      <div class="dash-header">
         <div>
-          <h4>Marketplace</h4>
-          <ul>
-            <li><a href="#categories">Explore Categories</a></li>
-            <li><a href="#how-it-works">How VEYRA Works</a></li>
-            <li><a href="#for-professionals">For Customers</a></li>
-            <li><a href="#for-professionals">For Professionals</a></li>
-          </ul>
+          <p class="section-kicker">Professional Studio</p>
+          <h2 class="section-title">Shop &amp; Services Dashboard</h2>
         </div>
+        <button type="button" class="btn btn-soft" data-nav-view="home">← View Public Marketplace</button>
+      </div>
 
-        <div>
-          <h4>Information</h4>
-          <ul>
-            <li><a href="#faq">Frequently Asked Questions</a></li>
-            <li><a href="#top">Back to Top</a></li>
-          </ul>
+      <div id="proAuthGate" class="card">
+        <h3>Sign in or Register as a Professional</h3>
+        <p class="muted" style="margin-bottom:16px;">Register your Shop / Studio Name, list your services &amp; prices, describe your craft, and list the products you use.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button type="button" class="btn btn-primary" data-open-auth="register-pro">Create Professional Account</button>
+          <button type="button" class="btn btn-ghost" data-open-auth="signin">Sign In to Existing Studio</button>
         </div>
       </div>
 
-      <div class="footer-bottom">
-        <span>&copy; 2026 VEYRA &mdash; A product of Damayanti Network (division of Damayanti Crest).</span>
-        <span>Beauty, Styling &amp; Creative Services Marketplace</span>
+      <div id="proDashContent" hidden>
+        <div class="dash-grid">
+          <form class="card" id="proProfileForm">
+            <h3>Shop Profile, Description &amp; Products Used</h3>
+            <div class="form-grid">
+              <div class="field">
+                <label for="proShopName">Shop / Studio Name *</label>
+                <input id="proShopName" class="input" required placeholder="e.g. Atelier Lumière Studio" />
+              </div>
+              <div class="field">
+                <label for="proDisplayName">Owner / Artist Name *</label>
+                <input id="proDisplayName" class="input" required placeholder="Your full name" />
+              </div>
+              <div class="field">
+                <label for="proCategory">Primary Category</label>
+                <select id="proCategory" class="select">
+                  <option value="makeup">Makeup</option>
+                  <option value="hair">Hair</option>
+                  <option value="mehendi">Mehendi</option>
+                  <option value="nails">Nails</option>
+                  <option value="skincare-beauty">Skincare &amp; Beauty</option>
+                  <option value="styling">Styling</option>
+                  <option value="fashion-design">Fashion Design</option>
+                  <option value="interior-design">Interior Design</option>
+                  <option value="graphic-design">Graphic Design</option>
+                  <option value="photography">Photography</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="proStatus">Listing Visibility</label>
+                <select id="proStatus" class="select">
+                  <option value="active">Active (Visible to Customers)</option>
+                  <option value="paused">Paused (Hidden)</option>
+                  <option value="draft">Draft</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="proCity">City *</label>
+                <input id="proCity" class="input" required placeholder="e.g. Bengaluru" />
+              </div>
+              <div class="field">
+                <label for="proLocality">Locality / Neighbourhood</label>
+                <input id="proLocality" class="input" placeholder="e.g. Indiranagar" />
+              </div>
+              <div class="field form-grid-full">
+                <label for="proHeadline">Short Title / Tagline</label>
+                <input id="proHeadline" class="input" placeholder="e.g. Bridal HD & Editorial Makeup Specialist" />
+              </div>
+              <div class="field form-grid-full">
+                <label for="proBio">Brief Description</label>
+                <textarea id="proBio" class="textarea" rows="3" placeholder="Tell customers about your studio, style, and experience..."></textarea>
+              </div>
+              <div class="field form-grid-full">
+                <label for="proProductsUsed">Products &amp; Brands Used (comma-separated)</label>
+                <input id="proProductsUsed" class="input" placeholder="e.g. MAC Cosmetics, Huda Beauty, Charlotte Tilbury, Organic Sojat Henna" />
+              </div>
+              <div class="field">
+                <label for="proProductsSummary">Product &amp; Hygiene Notes</label>
+                <input id="proProductsSummary" class="input" placeholder="e.g. 100% authentic kits, single-use applicators" />
+              </div>
+              <div class="field">
+                <label for="proExp">Experience (Years)</label>
+                <input id="proExp" type="number" min="0" class="input" value="1" />
+              </div>
+            </div>
+            <div style="margin-top:16px;">
+              <button type="submit" class="btn btn-primary">Save Shop Profile &amp; Services</button>
+            </div>
+          </form>
+
+          <div style="display:grid;gap:20px;">
+            <div class="card">
+              <h3>Services &amp; Prices</h3>
+              <div id="proServicesList" style="margin-bottom:16px;"></div>
+              <form id="addProServiceForm" style="display:grid;gap:10px;padding-top:12px;border-top:1px solid var(--border);">
+                <input id="newSrvName" class="input" required placeholder="Service name (e.g. Bridal Makeup)" />
+                <div class="form-grid">
+                  <input id="newSrvPrice" type="number" min="0" class="input" required placeholder="Price (INR)" />
+                  <input id="newSrvDuration" type="number" min="15" class="input" value="60" placeholder="Duration (mins)" />
+                </div>
+                <input id="newSrvDesc" class="input" placeholder="Short description of what is included" />
+                <button type="submit" class="btn btn-soft btn-sm">+ Add Service</button>
+              </form>
+            </div>
+
+            <div class="card">
+              <h3>Incoming Customer Bookings</h3>
+              <div id="proBookingsList"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== VIEW 4: ADMIN DASHBOARD ==================== -->
+  <section class="app-view dash-wrap" data-view="admin" hidden>
+    <div class="container">
+      <div class="dash-header">
+        <div>
+          <p class="section-kicker">Operations Command</p>
+          <h2 class="section-title">VEYRA Admin Dashboard</h2>
+        </div>
+        <button type="button" class="btn btn-soft" data-nav-view="home">← Back to Marketplace</button>
+      </div>
+
+      <div id="adminAuthGate" class="dash-grid">
+        <div class="card">
+          <h3>Admin Sign-In Required</h3>
+          <p class="muted" style="margin-bottom:14px;">Sign in with an account that has the <code>admin: true</code> custom claim in Firebase Auth to manage professionals, verifications, users, and bookings.</p>
+          <button type="button" class="btn btn-primary" data-open-auth="signin">Sign In as Admin</button>
+        </div>
+        <form class="card" id="firebaseConnectForm">
+          <h3>Connect Firebase Project</h3>
+          <p class="muted" style="margin-bottom:10px;">Paste your Firebase Web App config JSON (from Firebase Console &rarr; Project Settings) to enable live Auth &amp; Firestore on this site.</p>
+          <textarea id="firebaseConfigJson" class="textarea" rows="6" placeholder='{"apiKey":"...","authDomain":"...","projectId":"...","storageBucket":"...","messagingSenderId":"...","appId":"..."}'></textarea>
+          <button type="submit" class="btn btn-soft" style="margin-top:12px;">Save &amp; Connect Firebase</button>
+        </form>
+      </div>
+
+      <div id="adminDashContent" hidden>
+        <div class="kpi-grid">
+          <div class="kpi-card"><span class="muted">Total Users</span><strong id="kpiUsers">0</strong></div>
+          <div class="kpi-card"><span class="muted">Registered Shops</span><strong id="kpiPros">0</strong></div>
+          <div class="kpi-card"><span class="muted">Verified Studios</span><strong id="kpiVerified">0</strong></div>
+          <div class="kpi-card"><span class="muted">Total Bookings</span><strong id="kpiBookings">0</strong></div>
+        </div>
+        <div class="dash-grid">
+          <div class="card">
+            <h3>Registered Professionals &amp; Shops</h3>
+            <div id="adminProsList"></div>
+          </div>
+          <div class="card">
+            <h3>Recent Bookings</h3>
+            <div id="adminBookingsList"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== MODALS ==================== -->
+  <div class="modal-backdrop" id="authModal" aria-hidden="true">
+    <div class="modal-card" style="max-width:460px;">
+      <button type="button" class="modal-close" data-close-modal="authModal" aria-label="Close">✕</button>
+      <h2 id="authModalTitle" style="margin-top:0;">Welcome to VEYRA</h2>
+      <form id="authForm" style="display:grid;gap:12px;">
+        <div class="field">
+          <label for="authModeSelect">Action</label>
+          <select id="authModeSelect" class="select">
+            <option value="signin">Sign In</option>
+            <option value="register">Create New Account</option>
+            <option value="reset">Forgot Password</option>
+          </select>
+        </div>
+        <div class="field" id="authRoleGroup" hidden>
+          <label for="authRoleSelect">Account Type</label>
+          <select id="authRoleSelect" class="select">
+            <option value="customer">Customer (Book services)</option>
+            <option value="professional">Professional (Register shop &amp; services)</option>
+          </select>
+        </div>
+        <div class="field" id="authNameGroup" hidden>
+          <label for="authNameInput">Full Name</label>
+          <input id="authNameInput" class="input" placeholder="Your name" />
+        </div>
+        <div class="field" id="authShopGroup" hidden>
+          <label for="authShopInput">Shop / Studio Name</label>
+          <input id="authShopInput" class="input" placeholder="e.g. Glow & Co. Studio" />
+        </div>
+        <div class="field">
+          <label for="authEmailInput">Email Address</label>
+          <input id="authEmailInput" type="email" class="input" required placeholder="you@example.com" />
+        </div>
+        <div class="field" id="authPasswordGroup">
+          <label for="authPasswordInput">Password</label>
+          <input id="authPasswordInput" type="password" class="input" required minlength="6" placeholder="Minimum 6 characters" />
+        </div>
+        <p id="authErrorMsg" class="error-msg" hidden></p>
+        <button type="submit" class="btn btn-primary" id="authSubmitBtn">Sign In</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="proDetailModal" aria-hidden="true">
+    <div class="modal-card">
+      <button type="button" class="modal-close" data-close-modal="proDetailModal" aria-label="Close">✕</button>
+      <div id="proModalBody"></div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="bookingModal" aria-hidden="true">
+    <div class="modal-card" style="max-width:480px;">
+      <button type="button" class="modal-close" data-close-modal="bookingModal" aria-label="Close">✕</button>
+      <h2 style="margin-top:0;">Confirm Service Booking</h2>
+      <p class="muted" style="margin-bottom:14px;">
+        <strong id="bookShopName"></strong> &middot; <span id="bookServiceName"></span> (<strong id="bookServicePrice"></strong>)
+      </p>
+      <form id="bookingForm" style="display:grid;gap:12px;">
+        <div class="form-grid">
+          <div class="field">
+            <label for="bookDateInput">Preferred Date *</label>
+            <input id="bookDateInput" type="date" class="input" required />
+          </div>
+          <div class="field">
+            <label for="bookTimeInput">Time Slot</label>
+            <select id="bookTimeInput" class="select">
+              <option value="Morning">Morning (9 AM – 12 PM)</option>
+              <option value="Afternoon">Afternoon (12 PM – 4 PM)</option>
+              <option value="Evening">Evening (4 PM – 8 PM)</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="bookAddressInput">Venue / Service Address *</label>
+          <input id="bookAddressInput" class="input" required placeholder="Locality, city, or studio preference" />
+        </div>
+        <div class="field">
+          <label for="bookNotesInput">Notes for the Professional</label>
+          <textarea id="bookNotesInput" class="textarea" rows="2" placeholder="Event details, skin/hair preferences, or questions..."></textarea>
+        </div>
+        <p id="bookingErrorMsg" class="error-msg" hidden></p>
+        <button type="submit" class="btn btn-primary">Send Booking Request</button>
+      </form>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <strong>VEYRA</strong> &mdash; A product of <strong>Damayanti Network</strong> (a division of Damayanti Crest).
+      </div>
+      <div class="footer-links">
+        <a href="#categoriesSection" data-nav-view="home">Categories</a>
+        <a href="#professionalsSection" data-nav-view="home">Professionals</a>
+        <button type="button" style="background:none;border:none;cursor:pointer;color:inherit;font-size:inherit;" data-nav-view="pro">Pro Dashboard</button>
+        <button type="button" style="background:none;border:none;cursor:pointer;color:inherit;font-size:inherit;" data-nav-view="admin">Admin</button>
       </div>
     </div>
   </footer>
 
-  <script>
-    const mobileBtn = document.getElementById('mobileMenuBtn');
-    const mobileDrawer = document.getElementById('mobileDrawer');
-    mobileBtn?.addEventListener('click', () => {
-      const open = mobileDrawer.classList.toggle('open');
-      mobileBtn.setAttribute('aria-expanded', String(open));
-    });
-    mobileDrawer?.querySelectorAll('a').forEach((link) => {
-      link.addEventListener('click', () => {
-        mobileDrawer.classList.remove('open');
-        mobileBtn?.setAttribute('aria-expanded', 'false');
-      });
-    });
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    const cards = document.querySelectorAll('.cat-card');
-    const searchInput = document.getElementById('categorySearchInput');
-    const searchForm = document.getElementById('categorySearchForm');
-    const filterCount = document.getElementById('filterCount');
-    const emptyFilter = document.getElementById('emptyFilter');
-    const resetBtn = document.getElementById('resetFilterBtn');
-    let activeGroup = 'all';
-
-    function applyCategoryFilters() {
-      const q = (searchInput?.value || '').trim().toLowerCase();
-      let visible = 0;
-      cards.forEach((card) => {
-        const matchesGroup = activeGroup === 'all' || card.getAttribute('data-group') === activeGroup;
-        const text = (card.textContent + ' ' + (card.getAttribute('data-keywords') || '')).toLowerCase();
-        const matchesQuery = !q || text.includes(q);
-        const show = matchesGroup && matchesQuery;
-        card.classList.toggle('hidden', !show);
-        if (show) visible += 1;
-      });
-      if (filterCount) {
-        filterCount.textContent = `Showing ${visible} categor${visible === 1 ? 'y' : 'ies'}`;
-      }
-      emptyFilter?.classList.toggle('visible', visible === 0);
-    }
-
-    filterButtons.forEach((btn) => {
-      btn.addEventListener('click', () => {
-        filterButtons.forEach((b) => b.classList.remove('active'));
-        btn.classList.add('active');
-        activeGroup = btn.getAttribute('data-filter') || 'all';
-        applyCategoryFilters();
-      });
-    });
-
-    searchInput?.addEventListener('input', applyCategoryFilters);
-    searchForm?.addEventListener('submit', (e) => {
-      e.preventDefault();
-      applyCategoryFilters();
-      document.getElementById('categories')?.scrollIntoView({ behavior: 'smooth' });
-    });
-
-    resetBtn?.addEventListener('click', () => {
-      if (searchInput) searchInput.value = '';
-      activeGroup = 'all';
-      filterButtons.forEach((b) => b.classList.toggle('active', b.getAttribute('data-filter') === 'all'));
-      applyCategoryFilters();
-    });
-
-    document.querySelectorAll('.faq-q').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        btn.parentElement.classList.toggle('open');
-      });
-    });
-  </script>
+  <script src="./firebase-config.js"></script>
+  <script type="module" src="./app.js"></script>
 </body>
 </html>

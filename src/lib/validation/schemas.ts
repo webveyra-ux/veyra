@@ -70,6 +70,8 @@ export const professionalProfileSchema = z.object({
   serviceRadiusKm: z.number().min(1).max(200),
   serviceModes: z.array(serviceModeEnum).min(1, 'Choose at least one service mode'),
   languages: z.array(z.string()).min(1, 'Add at least one language'),
+  productsUsed: z.array(z.string().trim().max(80)).optional(),
+  productsSummary: z.string().trim().max(500).optional().or(z.literal('')),
 });
 
 export const serviceRequestSchema = z

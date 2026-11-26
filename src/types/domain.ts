@@ -204,6 +204,8 @@ export interface ProfessionalProfile {
   serviceRadiusKm: number;
   serviceModes: ServiceMode[];
   languages: string[];
+  productsUsed?: string[];
+  productsSummary?: string;
   portfolio: PortfolioItem[];
   priceRange: {
     min: number;

@@ -301,6 +301,26 @@ function ProfessionalPublicProfileInner() {
 
               <p className="text-sm leading-relaxed text-[#242331]">{pro.bio}</p>
 
+              {(pro.productsUsed?.length || pro.productsSummary) && (
+                <div className="rounded-xl border border-[#E9E5EF] bg-[#F5F0FF]/55 p-3.5 space-y-2">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-[#5B3EB5]">
+                    Products &amp; Brands Used
+                  </p>
+                  {pro.productsUsed && pro.productsUsed.length > 0 && (
+                    <div className="flex flex-wrap gap-1.5">
+                      {pro.productsUsed.map((item) => (
+                        <Badge key={item} tone="neutral">
+                          {item}
+                        </Badge>
+                      ))}
+                    </div>
+                  )}
+                  {pro.productsSummary && (
+                    <p className="text-xs text-[#6B6879]">{pro.productsSummary}</p>
+                  )}
+                </div>
+              )}
+
               <div className="flex flex-wrap gap-2">
                 {pro.categories.map((cat) => (
                   <Link key={cat} href={`/categories/${cat}`}>

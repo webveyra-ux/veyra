@@ -260,6 +260,8 @@ export async function saveProfessionalProfile(
     serviceRadiusKm: updates.serviceRadiusKm ?? existing?.serviceRadiusKm ?? 15,
     serviceModes: updates.serviceModes ?? existing?.serviceModes ?? ['at_home'],
     languages: updates.languages ?? existing?.languages ?? ['English'],
+    productsUsed: updates.productsUsed ?? existing?.productsUsed ?? [],
+    productsSummary: updates.productsSummary ?? existing?.productsSummary ?? '',
     portfolio: updates.portfolio ?? existing?.portfolio ?? [],
     priceRange: computedPriceRange,
     // Server-governed protected metrics preserved from existing record
