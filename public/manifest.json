@@ -1,0 +1,25 @@
+{
+  "name": "VEYRA — Beauty, Styling & Creative Marketplace",
+  "short_name": "VEYRA",
+  "description": "One request. Multiple professionals. Better choices. Discover independent beauty, styling, and creative professionals.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFCF8",
+  "theme_color": "#7655D9",
+  "orientation": "portrait-primary",
+  "categories": ["lifestyle", "beauty", "shopping", "business"],
+  "icons": [
+    {
+      "src": "/logo/veyra-mark.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/veyra-icon.jpg",
+      "sizes": "1024x1024",
+      "type": "image/jpeg",
+      "purpose": "any"
+    }
+  ]
+}

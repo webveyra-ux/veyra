@@ -1,0 +1,461 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function uid() {
+      return request.auth.uid;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && uid() == userId;
+    }
+
+    function hasAdminClaim() {
+      return isSignedIn()
+        && request.auth.token.get('admin', false) == true
+        && request.auth.token.get('adminLevel', '') in [
+          'super_admin',
+          'operations_admin',
+          'verification_admin',
+          'support_admin',
+          'content_admin'
+        ];
+    }
+
+    function hasAdminLevel(levels) {
+      return hasAdminClaim() && request.auth.token.get('adminLevel', '') in levels;
+    }
+
+    function isNotSuspended() {
+      return isSignedIn() && (
+        !exists(/databases/$(database)/documents/users/$(uid())) ||
+        get(/databases/$(database)/documents/users/$(uid())).data.accountStatus == 'active'
+      );
+    }
+
+    function isValidRating(val) {
+      return val is number && val >= 1 && val <= 5;
+    }
+
+    // -------------------------------------------------------------------------
+    // USERS
+    // -------------------------------------------------------------------------
+    match /users/{userId} {
+      allow read: if isOwner(userId) || hasAdminClaim();
+
+      // Users may create only customer or professional accounts, never admin.
+      allow create: if isOwner(userId)
+        && request.resource.data.uid == userId
+        && request.resource.data.role in ['customer', 'professional']
+        && request.resource.data.accountStatus == 'active';
+
+      // Users cannot change their role, uid, or accountStatus on the client.
+      allow update: if (
+        isOwner(userId)
+        && isNotSuspended()
+        && request.resource.data.uid == resource.data.uid
+        && request.resource.data.role == resource.data.role
+        && request.resource.data.accountStatus == resource.data.accountStatus
+      ) || hasAdminLevel(['super_admin', 'operations_admin', 'support_admin']);
+
+      allow delete: if false;
+    }
+
+    // -------------------------------------------------------------------------
+    // CUSTOMER PROFILES & ADDRESSES
+    // -------------------------------------------------------------------------
+    match /customerProfiles/{userId} {
+      allow read: if isOwner(userId) || hasAdminClaim();
+      allow create: if isOwner(userId) && isNotSuspended() && request.resource.data.uid == userId;
+      allow update: if isOwner(userId) && isNotSuspended() && request.resource.data.uid == resource.data.uid;
+      allow delete: if false;
+    }
+
+    match /addresses/{addressId} {
+      allow read: if isSignedIn() && (resource.data.userId == uid() || hasAdminClaim());
+      allow create: if isSignedIn() && isNotSuspended() && request.resource.data.userId == uid();
+      allow update: if isSignedIn() && isNotSuspended() && resource.data.userId == uid() && request.resource.data.userId == uid();
+      allow delete: if isSignedIn() && isNotSuspended() && resource.data.userId == uid();
+    }
+
+    // -------------------------------------------------------------------------
+    // PROFESSIONAL PROFILES
+    // -------------------------------------------------------------------------
+    match /professionalProfiles/{userId} {
+      allow read: if resource.data.profileStatus == 'active'
+        || isOwner(userId)
+        || hasAdminClaim();
+
+      // Professionals cannot self-verify, self-feature, or fabricate metrics.
+      allow create: if isOwner(userId)
+        && isNotSuspended()
+        && request.resource.data.uid == userId
+        && request.resource.data.isVerified == false
+        && request.resource.data.verificationStatus == 'not_submitted'
+        && request.resource.data.isFeatured == false
+        && request.resource.data.ratingAverage == 0
+        && request.resource.data.reviewCount == 0
+        && request.resource.data.completedBookingsCount == 0
+        && request.resource.data.profileStatus in ['draft', 'active', 'paused'];
+
+      allow update: if (
+        isOwner(userId)
+        && isNotSuspended()
+        && request.resource.data.uid == resource.data.uid
+        && request.resource.data.isVerified == resource.data.isVerified
+        && request.resource.data.verificationStatus == resource.data.verificationStatus
+        && request.resource.data.isFeatured == resource.data.isFeatured
+        && request.resource.data.ratingAverage == resource.data.ratingAverage
+        && request.resource.data.reviewCount == resource.data.reviewCount
+        && request.resource.data.completedBookingsCount == resource.data.completedBookingsCount
+        && resource.data.profileStatus != 'suspended'
+        && request.resource.data.profileStatus in ['draft', 'active', 'paused']
+      ) || hasAdminLevel(['super_admin', 'operations_admin', 'verification_admin', 'content_admin']);
+
+      allow delete: if false;
+    }
+
+    // -------------------------------------------------------------------------
+    // VERIFICATION RECORDS (STRICTLY PRIVATE - NEVER PUBLIC)
+    // -------------------------------------------------------------------------
+    match /verificationRecords/{userId} {
+      allow read: if isOwner(userId)
+        || hasAdminLevel(['super_admin', 'operations_admin', 'verification_admin']);
+
+      allow create: if isOwner(userId)
+        && isNotSuspended()
+        && request.resource.data.uid == userId
+        && request.resource.data.status in ['not_submitted', 'pending'];
+
+      allow update: if (
+        isOwner(userId)
+        && isNotSuspended()
+        && request.resource.data.uid == resource.data.uid
+        && resource.data.status in ['not_submitted', 'rejected', 'more_info_required']
+        && request.resource.data.status == 'pending'
+      ) || hasAdminLevel(['super_admin', 'operations_admin', 'verification_admin']);
+
+      allow delete: if false;
+    }
+
+    // -------------------------------------------------------------------------
+    // AVAILABILITY
+    // -------------------------------------------------------------------------
+    match /availability/{userId} {
+      allow read: if true;
+      allow create, update: if isOwner(userId) && isNotSuspended() && request.resource.data.uid == userId;
+      allow delete: if false;
+    }
+
+    // -------------------------------------------------------------------------
+    // CATEGORIES, SUBCATEGORIES, SERVICES
+    // -------------------------------------------------------------------------
+    match /categories/{categoryId} {
+      allow read: if resource.data.active == true || hasAdminClaim();
+      allow write: if hasAdminLevel(['super_admin', 'operations_admin', 'content_admin']);
+    }
+
+    match /subcategories/{subcategoryId} {
+      allow read: if resource.data.active == true || hasAdminClaim();
+      allow write: if hasAdminLevel(['super_admin', 'operations_admin', 'content_admin']);
+    }
+
+    match /services/{serviceId} {
+      allow read: if resource.data.active == true || hasAdminClaim();
+      allow write: if hasAdminLevel(['super_admin', 'operations_admin', 'content_admin']);
+    }
+
+    // -------------------------------------------------------------------------
+    // REQUESTS & PRIVATE CONTACT SUBCOLLECTION
+    // -------------------------------------------------------------------------
+    match /requests/{requestId} {
+      // Customer owns request; matched/active professionals can view non-draft open requests; admins view all.
+      allow read: if hasAdminClaim()
+        || (isSignedIn() && resource.data.customerId == uid())
+        || (
+          isSignedIn()
+          && isNotSuspended()
+          && resource.data.status in ['open', 'matching', 'proposals_received', 'shortlisted']
+          && exists(/databases/$(database)/documents/professionalProfiles/$(uid()))
+        );
+
+      allow create: if isSignedIn()
+        && isNotSuspended()
+        && request.resource.data.customerId == uid()
+        && request.resource.data.status in ['draft', 'open']
+        && request.resource.data.bookingId == null
+        && request.resource.data.acceptedProposalId == null
+        && request.resource.data.budgetMin >= 0
+        && request.resource.data.budgetMax >= request.resource.data.budgetMin;
+
+      // Customer can update own draft or cancel/close open request, but cannot directly set 'booked' or 'completed' without server transaction.
+      allow update: if (
+        isSignedIn()
+        && isNotSuspended()
+        && resource.data.customerId == uid()
+        && request.resource.data.customerId == resource.data.customerId
+        && resource.data.status in ['draft', 'open', 'matching', 'proposals_received', 'shortlisted']
+        && request.resource.data.status in ['draft', 'open', 'cancelled', 'closed']
+        && request.resource.data.bookingId == resource.data.bookingId
+        && request.resource.data.acceptedProposalId == resource.data.acceptedProposalId
+      ) || hasAdminLevel(['super_admin', 'operations_admin', 'support_admin']);
+
+      allow delete: if isSignedIn()
+        && isNotSuspended()
+        && resource.data.customerId == uid()
+        && resource.data.status == 'draft';
+
+      match /privateDetails/{docId} {
+        allow read: if hasAdminClaim()
+          || (isSignedIn() && get(/databases/$(database)/documents/requests/$(requestId)).data.customerId == uid())
+          || (
+            isSignedIn()
+            && get(/databases/$(database)/documents/requests/$(requestId)).data.bookingId != null
+            && get(/databases/$(database)/documents/bookings/$(get(/databases/$(database)/documents/requests/$(requestId)).data.bookingId)).data.professionalId == uid()
+          );
+        allow create, update: if isSignedIn()
+          && isNotSuspended()
+          && get(/databases/$(database)/documents/requests/$(requestId)).data.customerId == uid();
+        allow delete: if false;
+      }
+    }
+
+    // -------------------------------------------------------------------------
+    // REQUEST MATCHES & RECIPIENTS
+    // -------------------------------------------------------------------------
+    match /requestMatches/{matchId} {
+      allow read: if hasAdminClaim()
+        || (isSignedIn() && (resource.data.professionalId == uid() || resource.data.customerId == uid()));
+
+      // Only server writes match records; professional may update saved/ignored/viewed state on own match.
+      allow create, delete: if false;
+      allow update: if isSignedIn()
+        && isNotSuspended()
+        && resource.data.professionalId == uid()
+        && request.resource.data.professionalId == resource.data.professionalId
+        && request.resource.data.requestId == resource.data.requestId
+        && request.resource.data.matchScore == resource.data.matchScore
+        && request.resource.data.matchStatus in ['viewed', 'saved', 'ignored', 'proposal_submitted'];
+    }
+
+    match /requestRecipients/{recipientId} {
+      allow read: if hasAdminClaim()
+        || (isSignedIn() && (resource.data.professionalId == uid() || resource.data.customerId == uid()));
+      allow write: if false;
+    }
+
+    // -------------------------------------------------------------------------
+    // PROPOSALS
+    // -------------------------------------------------------------------------
+    match /proposals/{proposalId} {
+      allow read: if hasAdminClaim()
+        || (isSignedIn() && (resource.data.professionalId == uid() || resource.data.customerId == uid()));
+
+      allow create: if isSignedIn()
+        && isNotSuspended()
+        && request.resource.data.professionalId == uid()
+        && request.resource.data.customerId != uid()
+        && request.resource.data.status == 'submitted'
+        && request.resource.data.price is number
+        && request.resource.data.price > 0
+        && exists(/databases/$(database)/documents/professionalProfiles/$(uid()))
+        && exists(/databases/$(database)/documents/requests/$(request.resource.data.requestId))
+        && get(/databases/$(database)/documents/requests/$(request.resource.data.requestId)).data.customerId == request.resource.data.customerId
+        && get(/databases/$(database)/documents/requests/$(request.resource.data.requestId)).data.status in ['open', 'matching', 'proposals_received', 'shortlisted'];
+
+      allow update: if (
+        // Professional edits or withdraws before acceptance
+        isSignedIn()
+        && isNotSuspended()
+        && resource.data.professionalId == uid()
+        && resource.data.status in ['submitted', 'shortlisted']
+        && request.resource.data.professionalId == resource.data.professionalId
+        && request.resource.data.requestId == resource.data.requestId
+        && request.resource.data.customerId == resource.data.customerId
+        && request.resource.data.status in ['submitted', 'withdrawn']
+      ) || (
+        // Customer shortlists or rejects — NEVER directly accepts from client (must use server transaction)
+        isSignedIn()
+        && isNotSuspended()
+        && resource.data.customerId == uid()
+        && resource.data.status in ['submitted', 'shortlisted']
+        && request.resource.data.professionalId == resource.data.professionalId
+        && request.resource.data.requestId == resource.data.requestId
+        && request.resource.data.customerId == resource.data.customerId
+        && request.resource.data.price == resource.data.price
+        && request.resource.data.status in ['submitted', 'shortlisted', 'rejected']
+      ) || hasAdminLevel(['super_admin', 'operations_admin']);
+
+      allow delete: if false;
+    }
+
+    // -------------------------------------------------------------------------
+    // SHORTLISTS / FAVOURITES
+    // -------------------------------------------------------------------------
+    match /shortlists/{shortlistId} {
+      allow read: if isSignedIn() && (resource.data.customerId == uid() || hasAdminClaim());
+      allow create: if isSignedIn()
+        && isNotSuspended()
+        && request.resource.data.customerId == uid()
+        && shortlistId == (uid() + '_pro_' + request.resource.data.professionalId);
+      allow delete: if isSignedIn() && isNotSuspended() && resource.data.customerId == uid();
+      allow update: if false;
+    }
+
+    // -------------------------------------------------------------------------
+    // CONVERSATIONS & MESSAGES
+    // -------------------------------------------------------------------------
+    match /conversations/{conversationId} {
+      allow read: if hasAdminClaim()
+        || (isSignedIn() && uid() in resource.data.participantIds);
+
+      allow create: if isSignedIn()
+        && isNotSuspended()
+        && uid() in request.resource.data.participantIds
+        && request.resource.data.participantIds.size() == 2
+        && request.resource.data.status == 'active';
+
+      allow update: if (
+        isSignedIn()
+        && isNotSuspended()
+        && uid() in resource.data.participantIds
+        && request.resource.data.participantIds == resource.data.participantIds
+      ) || hasAdminLevel(['super_admin', 'operations_admin', 'support_admin']);
+
+      allow delete: if false;
+
+      match /messages/{messageId} {
+        allow read: if hasAdminClaim()
+          || (isSignedIn() && uid() in get(/databases/$(database)/documents/conversations/$(conversationId)).data.participantIds);
+
+        allow create: if isSignedIn()
+          && isNotSuspended()
+          && uid() in get(/databases/$(database)/documents/conversations/$(conversationId)).data.participantIds
+          && get(/databases/$(database)/documents/conversations/$(conversationId)).data.status == 'active'
+          && request.resource.data.senderId == uid()
+          && request.resource.data.moderationStatus == 'visible';
+
+        // Participants may mark messages read; admins may moderate.
+        allow update: if (
+          isSignedIn()
+          && uid() in get(/databases/$(database)/documents/conversations/$(conversationId)).data.participantIds
+          && request.resource.data.senderId == resource.data.senderId
+          && request.resource.data.text == resource.data.text
+          && request.resource.data.moderationStatus == resource.data.moderationStatus
+        ) || hasAdminLevel(['super_admin', 'operations_admin', 'support_admin']);
+
+        allow delete: if false;
+      }
+    }
+
+    // -------------------------------------------------------------------------
+    // BOOKINGS (SERVER-CREATED & SERVER-TRANSITIONED FOR ATOMIC SAFETY)
+    // -------------------------------------------------------------------------
+    match /bookings/{bookingId} {
+      allow read: if hasAdminClaim()
+        || (isSignedIn() && (resource.data.customerId == uid() || resource.data.professionalId == uid()));
+
+      // Bookings are created & transitioned exclusively by trusted server endpoints / Cloud Functions.
+      allow create, update, delete: if false;
+    }
+
+    // -------------------------------------------------------------------------
+    // REVIEWS
+    // -------------------------------------------------------------------------
+    match /reviews/{reviewId} {
+      allow read: if resource.data.moderationStatus == 'published'
+        || hasAdminClaim()
+        || (isSignedIn() && (resource.data.customerId == uid() || resource.data.professionalId == uid()));
+
+      // Deterministic ID `booking_<bookingId>` prevents duplicate reviews per completed booking.
+      allow create: if isSignedIn()
+        && isNotSuspended()
+        && request.resource.data.customerId == uid()
+        && reviewId == ('booking_' + request.resource.data.bookingId)
+        && exists(/databases/$(database)/documents/bookings/$(request.resource.data.bookingId))
+        && get(/databases/$(database)/documents/bookings/$(request.resource.data.bookingId)).data.customerId == uid()
+        && get(/databases/$(database)/documents/bookings/$(request.resource.data.bookingId)).data.professionalId == request.resource.data.professionalId
+        && get(/databases/$(database)/documents/bookings/$(request.resource.data.bookingId)).data.status == 'completed'
+        && isValidRating(request.resource.data.overallRating)
+        && isValidRating(request.resource.data.serviceQuality)
+        && isValidRating(request.resource.data.professionalism)
+        && isValidRating(request.resource.data.communication)
+        && isValidRating(request.resource.data.punctuality)
+        && request.resource.data.moderationStatus == 'published'
+        && request.resource.data.professionalResponse == null;
+
+      allow update: if (
+        // Professional adds a single response without altering customer review fields
+        isSignedIn()
+        && isNotSuspended()
+        && resource.data.professionalId == uid()
+        && resource.data.professionalResponse == null
+        && request.resource.data.professionalResponse != null
+        && request.resource.data.overallRating == resource.data.overallRating
+        && request.resource.data.comment == resource.data.comment
+        && request.resource.data.moderationStatus == resource.data.moderationStatus
+      ) || hasAdminLevel(['super_admin', 'operations_admin', 'support_admin', 'content_admin']);
+
+      allow delete: if false;
+    }
+
+    // -------------------------------------------------------------------------
+    // NOTIFICATIONS
+    // -------------------------------------------------------------------------
+    match /notifications/{notificationId} {
+      allow read: if isSignedIn() && resource.data.userId == uid();
+      allow create: if false; // Created strictly by trusted server events
+      allow update: if isSignedIn()
+        && resource.data.userId == uid()
+        && request.resource.data.userId == resource.data.userId
+        && request.resource.data.type == resource.data.type
+        && request.resource.data.title == resource.data.title
+        && request.resource.data.message == resource.data.message;
+      allow delete: if isSignedIn() && resource.data.userId == uid();
+    }
+
+    // -------------------------------------------------------------------------
+    // REPORTS
+    // -------------------------------------------------------------------------
+    match /reports/{reportId} {
+      allow read: if hasAdminClaim() || (isSignedIn() && resource.data.reporterId == uid());
+      allow create: if isSignedIn()
+        && isNotSuspended()
+        && request.resource.data.reporterId == uid()
+        && request.resource.data.status == 'open';
+      allow update: if hasAdminLevel(['super_admin', 'operations_admin', 'support_admin']);
+      allow delete: if false;
+    }
+
+    // -------------------------------------------------------------------------
+    // PROMOTIONS, PLATFORM CONTENT & SETTINGS
+    // -------------------------------------------------------------------------
+    match /promotions/{promoId} {
+      allow read: if resource.data.active == true || hasAdminClaim();
+      allow write: if hasAdminLevel(['super_admin', 'content_admin', 'operations_admin']);
+    }
+
+    match /platformSettings/{docId} {
+      allow read: if true;
+      allow write: if hasAdminLevel(['super_admin', 'content_admin', 'operations_admin']);
+    }
+
+    // -------------------------------------------------------------------------
+    // ADMIN ROLES & AUDIT LOGS (SERVER-MANAGED ONLY)
+    // -------------------------------------------------------------------------
+    match /adminRoles/{adminUid} {
+      allow read: if hasAdminClaim() || isOwner(adminUid);
+      allow write: if false;
+    }
+
+    match /auditLogs/{logId} {
+      allow read: if hasAdminClaim();
+      allow write: if false;
+    }
+  }
+}

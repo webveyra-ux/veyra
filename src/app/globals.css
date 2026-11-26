@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+:root {
+  --veyra-primary: #7655D9;
+  --veyra-primary-dark: #5B3EB5;
+  --veyra-lavender-bg: #F5F0FF;
+  --veyra-soft-lavender: #EDE5FF;
+  --veyra-blush: #FFF0F3;
+  --veyra-peach: #FFF1E7;
+  --veyra-mint: #E8F7F0;
+  --veyra-warm-white: #FFFCF8;
+  --veyra-surface: #FFFFFF;
+  --veyra-text-primary: #242331;
+  --veyra-text-secondary: #6B6879;
+  --veyra-border: #E9E5EF;
+}
+
+@theme inline {
+  --color-veyra-primary: var(--veyra-primary);
+  --color-veyra-primary-dark: var(--veyra-primary-dark);
+  --color-veyra-lavender: var(--veyra-lavender-bg);
+  --color-veyra-soft-lavender: var(--veyra-soft-lavender);
+  --color-veyra-blush: var(--veyra-blush);
+  --color-veyra-peach: var(--veyra-peach);
+  --color-veyra-mint: var(--veyra-mint);
+  --color-veyra-ivory: var(--veyra-warm-white);
+  --color-veyra-surface: var(--veyra-surface);
+  --color-veyra-ink: var(--veyra-text-primary);
+  --color-veyra-muted: var(--veyra-text-secondary);
+  --color-veyra-border: var(--veyra-border);
+  --font-sans: var(--font-plus-jakarta), system-ui, -apple-system, sans-serif;
+  --font-display: var(--font-fraunces), Georgia, serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--veyra-warm-white);
+  color: var(--veyra-text-primary);
+  font-family: var(--font-plus-jakarta), system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Accessible focus outlines across all interactive controls */
+:focus-visible {
+  outline: 2px solid var(--veyra-primary);
+  outline-offset: 2px;
+}
+
+.font-display {
+  font-family: var(--font-fraunces), Georgia, serif;
+}

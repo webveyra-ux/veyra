@@ -1,0 +1,121 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function hasAdminClaim() {
+      return isSignedIn()
+        && request.auth.token.get('admin', false) == true
+        && request.auth.token.get('adminLevel', '') in [
+          'super_admin',
+          'operations_admin',
+          'verification_admin',
+          'support_admin',
+          'content_admin'
+        ];
+    }
+
+    function isImage() {
+      return request.resource != null
+        && request.resource.contentType.matches('image/(jpeg|jpg|png|webp|avif)');
+    }
+
+    function isMediaOrDoc() {
+      return request.resource != null && (
+        request.resource.contentType.matches('image/(jpeg|jpg|png|webp|avif)') ||
+        request.resource.contentType == 'application/pdf'
+      );
+    }
+
+    function isPortfolioMedia() {
+      return request.resource != null && (
+        request.resource.contentType.matches('image/(jpeg|jpg|png|webp|avif)') ||
+        request.resource.contentType.matches('video/(mp4|webm)')
+      );
+    }
+
+    function underSizeMB(mb) {
+      return request.resource.size <= mb * 1024 * 1024;
+    }
+
+    // User profile images
+    match /users/{userId}/profile/{fileName} {
+      allow read: if true;
+      allow write: if isSignedIn() && request.auth.uid == userId && isImage() && underSizeMB(5);
+      allow delete: if isSignedIn() && (request.auth.uid == userId || hasAdminClaim());
+    }
+
+    // Professional portfolio and cover assets
+    match /professionals/{userId}/portfolio/{fileName} {
+      allow read: if true;
+      allow write: if isSignedIn() && request.auth.uid == userId && isPortfolioMedia() && underSizeMB(15);
+      allow delete: if isSignedIn() && (request.auth.uid == userId || hasAdminClaim());
+    }
+
+    // Request reference images (signed-in users and request owner)
+    match /requests/{requestId}/images/{fileName} {
+      allow read: if isSignedIn();
+      allow write: if isSignedIn()
+        && isImage()
+        && underSizeMB(8)
+        && firestore.exists(/databases/(default)/documents/requests/$(requestId))
+        && firestore.get(/databases/(default)/documents/requests/$(requestId)).data.customerId == request.auth.uid;
+      allow delete: if isSignedIn()
+        && (
+          hasAdminClaim() ||
+          (
+            firestore.exists(/databases/(default)/documents/requests/$(requestId))
+            && firestore.get(/databases/(default)/documents/requests/$(requestId)).data.customerId == request.auth.uid
+          )
+        );
+    }
+
+    // Conversation attachments (strictly limited to participants)
+    match /conversations/{conversationId}/attachments/{fileName} {
+      allow read: if isSignedIn() && (
+        hasAdminClaim() ||
+        request.auth.uid in firestore.get(/databases/(default)/documents/conversations/$(conversationId)).data.participantIds
+      );
+      allow write: if isSignedIn()
+        && isImage()
+        && underSizeMB(8)
+        && firestore.exists(/databases/(default)/documents/conversations/$(conversationId))
+        && request.auth.uid in firestore.get(/databases/(default)/documents/conversations/$(conversationId)).data.participantIds;
+      allow delete: if hasAdminClaim();
+    }
+
+    // Review images
+    match /reviews/{reviewId}/images/{fileName} {
+      allow read: if true;
+      allow write: if isSignedIn()
+        && isImage()
+        && underSizeMB(6);
+      allow delete: if hasAdminClaim();
+    }
+
+    // Verification documents (STRICTLY PRIVATE: only owner and verification/ops/super admins)
+    match /verification/{userId}/documents/{fileName} {
+      allow read: if isSignedIn() && (
+        request.auth.uid == userId ||
+        (
+          hasAdminClaim()
+          && request.auth.token.get('adminLevel', '') in ['super_admin', 'operations_admin', 'verification_admin']
+        )
+      );
+      allow write: if isSignedIn()
+        && request.auth.uid == userId
+        && isMediaOrDoc()
+        && underSizeMB(10);
+      allow delete: if isSignedIn() && (request.auth.uid == userId || hasAdminClaim());
+    }
+
+    // Deny everything else by default
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}
