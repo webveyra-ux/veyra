@@ -1,159 +1,99 @@
-# VEYRA — Beauty, Styling & Creative Services Marketplace
-
-**Tagline:** *Discover. Connect. Create.*  
-**Core Proposition:** *One request. Multiple professionals. Better choices.*  
-**Brand Attribution:** A product of **Damayanti Network** (division of Damayanti Crest).
-
----
-
-## 1. Platform Overview
-
-VEYRA is a full-stack Next.js (App Router) + TypeScript + Tailwind CSS + Firebase marketplace platform connecting customers with independent beauty, styling, and creative professionals across 10 dynamic categories:
-
-- Makeup, Hair, Mehendi, Nails, Skincare and Beauty
-- Styling, Fashion Design, Interior Design, Graphic Design, Photography
-
-### Key Capabilities Implemented
-- **Customer Portal (`/customer/*`)**: 10-step Post a Requirement wizard (with draft saving, reference image compression & Storage upload, privacy-protected venue details), Request management tabs, Side-by-side Proposal comparison, Shortlisting, Atomic proposal-to-booking acceptance, Real-time Messaging, Booking lifecycle management, Completed-booking Verified Reviews, Favourites, Saved Addresses, and Self-service Account Deletion.
-- **Professional Studio (`/professional/*`)**: 12-step resumable Onboarding wizard, Profile & cover editing, Portfolio manager (images/videos, category tagging, cover selection, ordering), Service & pricing catalogue, Availability schedule (weekly hours, days off, temporary unavailable, flexible requests), Verification submission (restricted private documents), Matched Request Feed with rule-based match scores & explanations, Proposal Builder (inclusions/exclusions/terms), Real-time Messaging, Booking transitions, and Real-data Analytics.
-- **Admin Portal (`/admin/*`)**: Strictly enforced via Firebase Auth Custom Claims (`admin: true` + `adminLevel` role matrix: `super_admin`, `operations_admin`, `verification_admin`, `support_admin`, `content_admin`) and `adminRoles`. Includes Verification queue with short-lived signed URLs for private documents, User & Professional suspension/featuring, Dynamic Category/Subcategory manager, Request & Booking oversight, Review moderation, Report management, CMS Content & Promotions editor, Real-data Analytics, Role assignment, and Audit Trail.
-- **Security & Privacy**: Restrictive `firestore.rules` & `storage.rules`, server-side transactions via Next.js API Route Handlers (`/api/*`) + optional Firebase Cloud Functions (`functions/`), private subcollection `requests/{id}/privateDetails/contact` for venue addresses, and complete anonymisation/deletion workflow.
+<div align="center">
+  <img src="./public/logo/veyra-mark.svg" alt="VEYRA Logo" width="72" height="72" />
+  <h1>VEYRA</h1>
+  <p><strong>Discover. Connect. Create.</strong> &mdash; <em>One request. Multiple professionals. Better choices.</em></p>
+  <p>A full-stack beauty, styling, and creative services marketplace &bull; A product of <strong>Damayanti Network</strong> (division of Damayanti Crest)</p>
+</div>
 
 ---
 
-## 2. Explicit Scope & Integration Disclosures
+## Live Architecture & Hosting Notice
 
-- **Payments**: Online payment gateway, wallet, and escrow are intentionally **not** enabled in this launch release. Bookings record agreed prices (`paymentStatus: 'offline_agreed'`) for direct offline settlement.
-- **AI Features**: No AI matching or generated summaries are simulated. Matching uses transparent rule-based filters and weighted scoring computed strictly from real profile data.
-- **Search**: Powered by indexed Firestore queries with cursor pagination and normalized search tokens (`SEARCH_CAPABILITIES`). External full-text search (Algolia/Typesense) can be plugged into `src/lib/search/provider.ts`.
-- **Maps**: Map mode stays explicitly disabled until `NEXT_PUBLIC_MAPS_PROVIDER=google` and `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` are configured (`src/lib/maps/provider.ts`).
-- **Phone OTP & Web Push**: Phone OTP (`NEXT_PUBLIC_ENABLE_PHONE_AUTH=true`) and Web Push (`NEXT_PUBLIC_FIREBASE_VAPID_KEY`) are gated behind valid Firebase Console configuration so disabled features are never misrepresented as active.
+- **Full-Stack Web Platform (Netlify / Vercel):** VEYRA is built with **Next.js 16 (App Router)**, **TypeScript**, **Tailwind CSS**, and **Firebase** (Auth, Firestore, Storage, Cloud Functions, optional FCM/App Check). Critical operations—matching distribution, atomic proposal-to-booking acceptance, booking state transitions, review eligibility, account deletion, and custom-claim admin actions—execute via authenticated server Route Handlers (`/api/*`) using `firebase-admin`.
+- **GitHub Pages Showcase (`webveyra-ux.github.io/veyra/`):** Because GitHub Pages serves static files only and cannot execute Next.js server routes or hold `FIREBASE_PRIVATE_KEY` secrets, GitHub Actions deploys [docs-site/index.html](./docs-site/index.html) as the clean static brand showcase at `https://webveyra-ux.github.io/veyra/`. Deploy the full interactive application to **Netlify** (configured via [netlify.toml](./netlify.toml)) or **Vercel**.
 
 ---
 
-## 3. Prerequisites & Installation
+## Implemented Platform Modules
 
-- **Node.js** `20.9+` (tested on `v24.21.0`)
-- **npm** `10+`
-- **Java 21+** (required only if running local Firebase Emulator Suite for development / rules testing)
+| Portal / Layer | Key Features |
+| :--- | :--- |
+| **Public Marketplace** | Editorial homepage, 10 dynamic categories & subcategories, paginated directory search + filters, honest Map-unconfigured handling, public professional profiles, About/Contact/Legal drafts, SEO sitemap & `robots.ts` |
+| **Customer Workspace (`/customer/*`)** | 10-step Post a Requirement wizard (drafts, compressed Storage images, protected private venue addresses), Request tabs, Side-by-side proposal comparison, Atomic booking creation, Real-time chat, Favourites, Saved addresses, Reauthenticated account deletion |
+| **Professional Studio (`/professional/*`)** | 12-step resumable onboarding, Profile & cover editing, Image/video portfolio manager, Service catalogue, Weekly & date-off availability, Restricted verification document submission, Rule-based matched request feed, Proposal builder, Real-data analytics |
+| **Admin Portal (`/admin/*`)** | Strictly enforced via Firebase Custom Claims (`super_admin`, `operations_admin`, `verification_admin`, `support_admin`, `content_admin`), Private verification review via signed URLs, User/Pro moderation, Dynamic category CRUD, Review & report moderation, CMS & promotions, Audit logs |
+| **Firebase Backend** | Restrictive [firestore.rules](./firestore.rules), [storage.rules](./storage.rules), [firestore.indexes.json](./firestore.indexes.json), optional [functions/src/index.ts](./functions/src/index.ts) Cloud Functions, and Emulator security test suite |
 
+---
+
+## Explicit Scope & Integration Disclosures
+
+- **Payments:** Online payment gateways, wallets, and escrow are intentionally disabled in this launch release; bookings record agreed values (`paymentStatus: 'offline_agreed'`) for direct settlement.
+- **AI Features:** No AI matching or generated summaries are simulated; candidate matching uses transparent rule-based filters and weighted scoring (`src/features/matching/engine.ts`).
+- **Search:** Indexed Firestore queries with cursor pagination and normalized tokens (`src/lib/search/provider.ts`).
+- **Maps, Phone OTP & Push:** Gated explicitly behind valid provider configuration (`NEXT_PUBLIC_MAPS_PROVIDER`, `NEXT_PUBLIC_ENABLE_PHONE_AUTH`, `NEXT_PUBLIC_FIREBASE_VAPID_KEY`).
+
+---
+
+## Local Setup & Firebase Configuration
+
+### 1. Install Dependencies
 ```bash
-git clone <your-github-repo-url>
+git clone https://github.com/webveyra-ux/veyra.git
 cd veyra
 npm install
-```
-
-Create your local environment file from the safe template:
-
-```bash
 cp .env.example .env.local
 ```
 
----
+### 2. Configure Firebase
+1. In [Firebase Console](https://console.firebase.google.com), enable **Authentication** (Email/Password; optionally Phone), **Cloud Firestore**, and **Firebase Storage**.
+2. Add your Web App keys (`NEXT_PUBLIC_FIREBASE_*`) and Service Account credentials (`FIREBASE_PROJECT_ID`, `FIREBASE_CLIENT_EMAIL`, `FIREBASE_PRIVATE_KEY`) to `.env.local` (or Netlify/Vercel environment variables).
+3. Deploy rules and indexes:
+   ```bash
+   npx firebase login
+   npx firebase use <your-project-id>
+   npx firebase deploy --only firestore:rules,firestore:indexes,storage
+   ```
 
-## 4. Firebase Configuration Setup
-
-1. Create a Firebase project in the [Firebase Console](https://console.firebase.google.com).
-2. Enable **Authentication** -> **Email/Password** (and optionally **Phone** if your project billing & authorized domains are configured).
-3. Enable **Cloud Firestore** and **Firebase Storage**.
-4. Register a **Web App** in Project Settings and copy the `NEXT_PUBLIC_FIREBASE_*` values into `.env.local`.
-5. For server-side trusted routes (`/api/proposals/accept`, `/api/bookings/[id]/transition`, `/api/reviews`, `/api/requests/distribute`, `/api/account/delete`, `/api/admin/*`) and CLI scripts:
-   - Generate a Service Account key in Firebase Project Settings -> Service accounts (keep it outside Git!) and set `FIREBASE_PROJECT_ID`, `FIREBASE_CLIENT_EMAIL`, and `FIREBASE_PRIVATE_KEY` in `.env.local`.
-6. Deploy Firestore rules, indexes, and Storage rules:
-
-```bash
-npx firebase login
-npx firebase use <your-project-id>
-npx firebase deploy --only firestore:rules,firestore:indexes,storage
-```
-
-### Optional Cloud Functions (Firebase Blaze Plan)
-```bash
-cd functions
-npm install
-npm run build
-cd ..
-npx firebase deploy --only functions
-```
-*(Note: All critical transactional flows also run via authenticated Next.js API Route Handlers on Vercel without requiring Blaze Cloud Functions.)*
-
-### Optional Web Push (FCM) & App Check
-- **FCM**: Generate a Web Push certificate key pair in Firebase Project Settings -> Cloud Messaging and set `NEXT_PUBLIC_FIREBASE_VAPID_KEY`.
-- **App Check**: Register reCAPTCHA v3 in Firebase App Check and set `NEXT_PUBLIC_FIREBASE_RECAPTCHA_SITE_KEY`.
-
----
-
-## 5. Secure Admin Initialization & Category Seeding
-
-VEYRA does **not** include a public admin signup page and does **not** hardcode admin credentials.
-
-1. First register a regular account via `/auth/register` (or create the user in Firebase Console -> Authentication).
-2. Grant `super_admin` Custom Claims and create the `adminRoles` document using the trusted server script:
-
+### 3. Bootstrap Admin & Seed Categories
+Register your admin account via `/auth/register`, then run:
 ```bash
 npm run init:admin -- --email admin@yourdomain.com --level super_admin
-```
-
-3. Seed the initial 10 categories, subcategories, and default platform settings into Firestore:
-
-```bash
 npm run seed:categories
 ```
-
-4. Sign out and sign back in on the web app so the user's Firebase ID token refreshes with the new `admin: true` custom claim, then open `/admin`.
-
----
-
-## 6. Local Development & Testing
-
-### Start Development Server
-```bash
-npm run dev
-```
-
-### Run Typecheck, Lint & Production Build
-```bash
-npm run typecheck
-npm run lint
-npm run build
-```
-
-### Run Unit Tests
-```bash
-npm test
-```
-
-### Run Firebase Emulator Suite & Security Rules Tests
-Ensure Java 21+ is on your `PATH`, then run:
-```bash
-npm run test:rules
-```
-To run the full app locally against Firebase Emulators:
-1. Set `NEXT_PUBLIC_USE_FIREBASE_EMULATORS=true` in `.env.local`.
-2. Start emulators: `npm run emulators`
-3. Start Next.js: `npm run dev`
+Sign out and back in to refresh your Firebase ID token custom claims before opening `/admin`.
 
 ---
 
-## 7. Deployment (Vercel + GitHub)
+## Verification & Testing Commands
 
-1. Push your repository to GitHub (verify `.env.local` and service-account JSONs are excluded by `.gitignore`).
-2. Import the repository into **Vercel**.
-3. Configure all environment variables from `.env.example` in Vercel Project Settings (keep `FIREBASE_PRIVATE_KEY` without `NEXT_PUBLIC_` prefix).
-4. Add your Vercel production domain to **Firebase Console -> Authentication -> Settings -> Authorized domains**.
-5. Deploy!
+```bash
+npm run typecheck      # next typegen && tsc --noEmit
+npm run lint           # ESLint
+npm test               # Vitest unit tests (matching engine & Zod schemas)
+npm run test:rules     # Firebase Auth/Firestore/Storage Emulator rules & transaction tests (Java 21+)
+npm run build          # Production Next.js build
+```
 
 ---
 
-## 8. Future Android App (Capacitor)
+## Deployment
 
-VEYRA is structured with mobile-first views, safe-area inset CSS, custom modals (no `window.alert`/`confirm`), and a `capacitor.config.ts` template (`com.damayantinetwork.veyra`).
+### Netlify (Included `netlify.toml`)
+1. Connect `https://github.com/webveyra-ux/veyra` in **Netlify → Add new site → Import an existing project**.
+2. Netlify reads [netlify.toml](./netlify.toml) (`command = "npm run build"`, `publish = ".next"`, `NODE_VERSION = "24"`).
+3. Add all variables from [.env.example](./.env.example) under **Site configuration → Environment variables**.
+4. Add your Netlify domain under **Firebase Console → Authentication → Settings → Authorized domains**.
 
-To wrap the deployed production platform into an Android shell later:
+### Vercel
+1. Import `https://github.com/webveyra-ux/veyra` on Vercel, configure the same [.env.example](./.env.example) environment variables, and authorize the domain in Firebase Authentication.
+
+---
+
+## Future Android App (Capacitor)
+
+VEYRA includes mobile-first layouts, PWA manifest ([public/manifest.json](./public/manifest.json)), safe-area CSS, and [capacitor.config.ts](./capacitor.config.ts) (`com.damayantinetwork.veyra`):
 ```bash
 npm install @capacitor/core @capacitor/cli @capacitor/android
-npx cap add android
-npx cap sync android
-npx cap open android
+npx cap add android && npx cap sync android && npx cap open android
 ```
-Update `capacitor.config.ts` `server.url` to your production HTTPS domain (or set `CAPACITOR_BUILD=true` for static asset bundling if exporting static routes).
