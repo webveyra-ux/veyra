@@ -48,7 +48,7 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-export default function RootLayout({ children }: LayoutProps<'/'>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${plusJakarta.variable} ${fraunces.variable} h-full`}>
       <body className="min-h-full flex flex-col bg-[#FFFCF8] text-[#242331]">
