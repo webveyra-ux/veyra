@@ -8,6 +8,7 @@
     name="description"
     content="One request. Multiple professionals. Better choices. VEYRA connects customers with independent beauty, styling, and creative professionals. A product of Damayanti Network."
   />
+  <meta name="theme-color" content="#7655D9" />
   <link rel="icon" type="image/svg+xml" href="./logo/veyra-mark.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -48,10 +49,6 @@
       line-height: 1.55;
     }
 
-    .font-display {
-      font-family: 'Fraunces', Georgia, serif;
-    }
-
     a {
       color: inherit;
       text-decoration: none;
@@ -69,7 +66,7 @@
       position: sticky;
       top: 0;
       z-index: 40;
-      background: rgba(255, 252, 248, 0.94);
+      background: rgba(255, 252, 248, 0.95);
       backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--border);
     }
@@ -96,7 +93,7 @@
 
     .brand-title {
       font-family: 'Fraunces', Georgia, serif;
-      font-size: 21px;
+      font-size: 22px;
       font-weight: 600;
       letter-spacing: -0.02em;
       line-height: 1;
@@ -108,18 +105,58 @@
       text-transform: uppercase;
       letter-spacing: 0.08em;
       color: var(--primary);
+      margin-top: 2px;
     }
 
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 24px;
+      gap: 28px;
       font-size: 14px;
       font-weight: 500;
       color: var(--text-secondary);
     }
 
     .nav-links a:hover {
+      color: var(--text-primary);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--text-primary);
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    .mobile-drawer {
+      display: none;
+      border-top: 1px solid var(--border);
+      background: var(--warm-white);
+      padding: 14px 20px 18px;
+    }
+
+    .mobile-drawer.open {
+      display: grid;
+      gap: 10px;
+    }
+
+    .mobile-drawer a {
+      padding: 8px 4px;
+      font-size: 14px;
+      font-weight: 500;
       color: var(--text-primary);
     }
 
@@ -134,7 +171,12 @@
       font-weight: 600;
       border: 1px solid transparent;
       cursor: pointer;
-      transition: background-color 150ms ease, border-color 150ms ease, transform 150ms ease;
+      transition: background-color 150ms ease, border-color 150ms ease;
+    }
+
+    .btn-sm {
+      padding: 9px 16px;
+      font-size: 13px;
     }
 
     .btn-primary {
@@ -157,26 +199,18 @@
       background: var(--lavender-bg);
     }
 
-    .btn-soft {
-      background: var(--lavender-bg);
-      color: var(--primary-dark);
-      border-color: var(--soft-lavender);
+    .btn-dark {
+      background: var(--text-primary);
+      color: #fff;
     }
 
-    /* Notice strip */
-    .notice-strip {
-      background: var(--lavender-bg);
-      border-bottom: 1px solid var(--soft-lavender);
-      color: var(--primary-dark);
-      font-size: 12px;
-      font-weight: 500;
-      text-align: center;
-      padding: 9px 16px;
+    .btn-dark:hover {
+      background: #363448;
     }
 
     /* Hero */
     .hero {
-      padding: 56px 0 64px;
+      padding: 58px 0 68px;
       border-bottom: 1px solid var(--border);
     }
 
@@ -203,7 +237,7 @@
     h1 {
       margin: 18px 0 16px;
       font-family: 'Fraunces', Georgia, serif;
-      font-size: clamp(2.1rem, 4.3vw, 3.35rem);
+      font-size: clamp(2.15rem, 4.3vw, 3.4rem);
       font-weight: 600;
       line-height: 1.08;
       letter-spacing: -0.02em;
@@ -213,29 +247,37 @@
       color: var(--text-secondary);
       font-size: 17px;
       max-width: 580px;
-      margin: 0 0 26px;
+      margin: 0 0 24px;
+    }
+
+    .search-shell {
+      display: flex;
+      gap: 8px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 7px;
+      box-shadow: 0 8px 28px rgba(36, 35, 49, 0.05);
+      margin-bottom: 20px;
+      max-width: 560px;
+    }
+
+    .search-shell input {
+      flex: 1;
+      border: 0;
+      outline: none;
+      background: transparent;
+      padding: 10px 12px;
+      font-family: inherit;
+      font-size: 14px;
+      color: var(--text-primary);
+      min-width: 0;
     }
 
     .hero-actions {
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
-      margin-bottom: 26px;
-    }
-
-    .hero-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .mini-chip {
-      padding: 8px 14px;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      background: #fff;
-      font-size: 12px;
-      font-weight: 600;
     }
 
     .hero-frame {
@@ -293,6 +335,12 @@
       border-bottom: 1px solid var(--border);
     }
 
+    .section-lavender {
+      background: rgba(245, 240, 255, 0.55);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
     .eyebrow {
       margin: 0 0 6px;
       font-size: 12px;
@@ -305,7 +353,7 @@
     .section-title {
       margin: 0 0 10px;
       font-family: 'Fraunces', Georgia, serif;
-      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-size: clamp(1.6rem, 3vw, 2.25rem);
       font-weight: 600;
       letter-spacing: -0.015em;
     }
@@ -321,8 +369,16 @@
     .filter-bar {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
       margin-bottom: 24px;
+    }
+
+    .filter-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
     }
 
     .filter-btn {
@@ -340,6 +396,11 @@
       background: var(--primary);
       border-color: var(--primary);
       color: #fff;
+    }
+
+    .filter-count {
+      font-size: 12px;
+      color: var(--text-secondary);
     }
 
     /* Category Grid */
@@ -377,18 +438,43 @@
 
     .cat-body {
       padding: 14px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
     }
 
     .cat-name {
       margin: 0 0 4px;
-      font-size: 14px;
+      font-size: 14.5px;
       font-weight: 600;
     }
 
     .cat-subs {
-      margin: 0;
+      margin: 0 0 10px;
       font-size: 12px;
       color: var(--text-secondary);
+    }
+
+    .cat-modes {
+      margin-top: auto;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--primary-dark);
+    }
+
+    .empty-filter {
+      display: none;
+      text-align: center;
+      padding: 36px 20px;
+      border-radius: 18px;
+      border: 1px dashed var(--border);
+      background: #fff;
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+
+    .empty-filter.visible {
+      display: block;
     }
 
     /* 4-Step Grid */
@@ -402,15 +488,15 @@
       background: #fff;
       border: 1px solid var(--border);
       border-radius: 20px;
-      padding: 22px;
+      padding: 24px;
     }
 
     .step-num {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 38px;
-      height: 38px;
+      width: 40px;
+      height: 40px;
       border-radius: 12px;
       font-family: 'Fraunces', Georgia, serif;
       font-weight: 600;
@@ -430,47 +516,54 @@
       color: var(--text-secondary);
     }
 
-    /* Portals & Architecture */
-    .two-col {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
-    }
-
     .three-col {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 18px;
     }
 
-    .deploy-box {
-      border-radius: 24px;
-      border: 1px solid var(--soft-lavender);
-      background: var(--lavender-bg);
-      padding: 28px;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
+    .two-col {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
       gap: 20px;
     }
 
-    .deploy-box h3 {
-      margin: 0 0 6px;
-      font-family: 'Fraunces', Georgia, serif;
-      font-size: 22px;
+    .spotlight-card {
+      border-radius: 24px;
+      padding: 32px;
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 18px;
     }
 
-    .deploy-box p {
+    .spotlight-card h3 {
+      margin: 10px 0 8px;
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 24px;
+      font-weight: 600;
+    }
+
+    .spotlight-card p {
       margin: 0;
       font-size: 14px;
       color: var(--text-secondary);
-      max-width: 680px;
+    }
+
+    .spotlight-list {
+      margin: 14px 0 0;
+      padding-left: 18px;
+      font-size: 13.5px;
+      color: var(--text-primary);
+      display: grid;
+      gap: 6px;
     }
 
     /* FAQ */
     .faq-list {
       max-width: 780px;
+      margin: 0 auto;
       display: grid;
       gap: 10px;
     }
@@ -478,7 +571,7 @@
     .faq-item {
       border: 1px solid var(--border);
       border-radius: 16px;
-      background: #fff;
+      background: var(--warm-white);
       overflow: hidden;
     }
 
@@ -495,12 +588,15 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 12px;
       cursor: pointer;
     }
 
     .faq-a {
       display: none;
-      padding: 0 20px 16px;
+      background: #fff;
+      border-top: 1px solid var(--border);
+      padding: 14px 20px 16px;
       font-size: 14px;
       color: var(--text-secondary);
     }
@@ -513,39 +609,67 @@
     .footer {
       border-top: 1px solid var(--border);
       background: #fff;
-      padding: 36px 0;
-      font-size: 13px;
+      padding: 44px 0 32px;
+      font-size: 13.5px;
       color: var(--text-secondary);
     }
 
-    .footer-inner {
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr;
+      gap: 32px;
+      padding-bottom: 28px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .footer h4 {
+      margin: 0 0 12px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-primary);
+    }
+
+    .footer ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 8px;
+    }
+
+    .footer a:hover {
+      color: var(--primary);
+    }
+
+    .footer-bottom {
+      padding-top: 20px;
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
+      gap: 12px;
+      font-size: 12px;
     }
 
     @media (max-width: 1024px) {
       .hero-grid { grid-template-columns: 1fr; }
       .cat-grid { grid-template-columns: repeat(3, 1fr); }
       .steps-grid { grid-template-columns: repeat(2, 1fr); }
-      .three-col { grid-template-columns: 1fr; }
+      .three-col, .footer-grid { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 640px) {
-      .nav-links { display: none; }
+      .nav-links, .header-actions { display: none; }
+      .mobile-menu-btn { display: inline-flex; }
       .cat-grid { grid-template-columns: repeat(2, 1fr); }
       .steps-grid, .two-col { grid-template-columns: 1fr; }
       .hero { padding: 36px 0 44px; }
+      .search-shell { flex-direction: column; }
     }
   </style>
 </head>
 <body>
-  <div class="notice-strip">
-    VEYRA Showcase Portal — Full Next.js App Router, Firebase Auth, Firestore, Storage &amp; Admin APIs run via Netlify or Vercel deployment.
-  </div>
-
   <header class="topbar">
     <div class="container topbar-inner">
       <a href="#top" class="brand">
@@ -558,19 +682,32 @@
 
       <nav class="nav-links" aria-label="Primary">
         <a href="#categories">Categories</a>
-        <a href="#how-it-works">How VEYRA Works</a>
-        <a href="#architecture">Portals &amp; Security</a>
-        <a href="#deploy">Deploy Live App</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="#for-professionals">For Professionals</a>
+        <a href="#faq">FAQ</a>
       </nav>
 
-      <a
-        href="https://github.com/webveyra-ux/veyra"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="btn btn-primary"
+      <div class="header-actions">
+        <a href="#categories" class="btn btn-outline btn-sm">Explore Services</a>
+        <a href="#for-professionals" class="btn btn-primary btn-sm">Join as Professional</a>
+      </div>
+
+      <button
+        type="button"
+        class="mobile-menu-btn"
+        aria-label="Toggle navigation"
+        aria-expanded="false"
+        id="mobileMenuBtn"
       >
-        View Repository
-      </a>
+        &#9776;
+      </button>
+    </div>
+
+    <div class="mobile-drawer" id="mobileDrawer">
+      <a href="#categories">Service Categories</a>
+      <a href="#how-it-works">How VEYRA Works</a>
+      <a href="#for-professionals">For Customers &amp; Professionals</a>
+      <a href="#faq">Frequently Asked Questions</a>
     </div>
   </header>
 
@@ -582,17 +719,22 @@
           <span class="pill">One request. Multiple professionals. Better choices.</span>
           <h1>Find the right professional for what you imagine.</h1>
           <p class="hero-copy">
-            VEYRA connects customers with independent beauty, styling, and creative professionals. Share your brief and reference images once, compare itemised proposals side by side, chat in real time, and confirm bookings securely.
+            VEYRA connects customers with independent beauty, styling, and creative service professionals. Share your vision and inspiration images once, compare tailored proposals side by side, and choose with confidence.
           </p>
+
+          <form class="search-shell" id="categorySearchForm">
+            <input
+              type="text"
+              id="categorySearchInput"
+              placeholder="Search makeup, mehendi, hair, interior design, photography..."
+              aria-label="Search service categories"
+            />
+            <button type="submit" class="btn btn-primary">Explore</button>
+          </form>
+
           <div class="hero-actions">
-            <a href="#deploy" class="btn btn-primary">Launch Full Web App (Netlify / Vercel)</a>
-            <a href="#categories" class="btn btn-outline">Explore 10 Categories</a>
-          </div>
-          <div class="hero-meta">
-            <span class="mini-chip">Next.js 16 + TypeScript</span>
-            <span class="mini-chip">Firebase Auth, Firestore &amp; Storage</span>
-            <span class="mini-chip">Admin Custom Claims</span>
-            <span class="mini-chip">Capacitor Android-Ready</span>
+            <a href="#categories" class="btn btn-primary">Browse 10 Categories</a>
+            <a href="#how-it-works" class="btn btn-outline">How VEYRA Works</a>
           </div>
         </div>
 
@@ -624,89 +766,106 @@
     <!-- Categories -->
     <section id="categories" class="section">
       <div class="container">
-        <p class="eyebrow">Marketplace Taxonomy</p>
-        <h2 class="section-title">10 Beauty, Styling &amp; Creative Categories</h2>
+        <p class="eyebrow">Service Directory</p>
+        <h2 class="section-title">Explore by craft &amp; category</h2>
         <p class="section-desc">
-          Stored dynamically in Cloud Firestore and managed through the VEYRA Admin Portal, supporting at-home, studio/salon, and remote service modes.
+          Discover independent specialists across beauty, personal styling, fashion, interiors, branding, and photography—available at home, in studio, or remotely.
         </p>
 
-        <div class="filter-bar" role="tablist" aria-label="Filter categories">
-          <button type="button" class="filter-btn active" data-filter="all">All (10)</button>
-          <button type="button" class="filter-btn" data-filter="beauty">Beauty &amp; Wellness (5)</button>
-          <button type="button" class="filter-btn" data-filter="creative">Styling &amp; Creative (5)</button>
+        <div class="filter-bar">
+          <div class="filter-tabs" role="tablist" aria-label="Filter categories">
+            <button type="button" class="filter-btn active" data-filter="all">All Categories (10)</button>
+            <button type="button" class="filter-btn" data-filter="beauty">Beauty &amp; Wellness (5)</button>
+            <button type="button" class="filter-btn" data-filter="creative">Styling &amp; Creative (5)</button>
+          </div>
+          <span class="filter-count" id="filterCount">Showing 10 categories</span>
         </div>
 
-        <div class="cat-grid">
-          <article class="cat-card" data-group="beauty">
+        <div class="cat-grid" id="categoryGrid">
+          <article class="cat-card" data-group="beauty" data-keywords="makeup bridal party engagement photoshoot everyday glam">
             <img src="./images/categories/makeup.jpg" alt="Makeup" />
             <div class="cat-body">
               <h3 class="cat-name">Makeup</h3>
-              <p class="cat-subs">Bridal, Party, Engagement, Photoshoot, Everyday</p>
+              <p class="cat-subs">Bridal makeup, Party, Engagement, Photoshoot, Everyday</p>
+              <div class="cat-modes">At-home &middot; Studio</div>
             </div>
           </article>
-          <article class="cat-card" data-group="beauty">
+          <article class="cat-card" data-group="beauty" data-keywords="hair haircuts styling colouring treatments keratin">
             <img src="./images/categories/hair.jpg" alt="Hair" />
             <div class="cat-body">
               <h3 class="cat-name">Hair</h3>
-              <p class="cat-subs">Haircuts, Styling, Colouring, Treatments</p>
+              <p class="cat-subs">Haircuts, Hair styling, Colouring, Treatments</p>
+              <div class="cat-modes">At-home &middot; Studio</div>
             </div>
           </article>
-          <article class="cat-card" data-group="beauty">
+          <article class="cat-card" data-group="beauty" data-keywords="mehendi henna bridal traditional party custom designs">
             <img src="./images/categories/mehendi.jpg" alt="Mehendi" />
             <div class="cat-body">
               <h3 class="cat-name">Mehendi</h3>
-              <p class="cat-subs">Bridal, Traditional, Party, Custom Designs</p>
+              <p class="cat-subs">Bridal mehendi, Traditional, Party, Custom designs</p>
+              <div class="cat-modes">At-home &middot; Studio</div>
             </div>
           </article>
-          <article class="cat-card" data-group="beauty">
+          <article class="cat-card" data-group="beauty" data-keywords="nails nail art manicure pedicure extensions gel">
             <img src="./images/categories/nails.jpg" alt="Nails" />
             <div class="cat-body">
               <h3 class="cat-name">Nails</h3>
-              <p class="cat-subs">Nail Art, Manicure, Pedicure, Extensions</p>
+              <p class="cat-subs">Nail art, Manicure, Pedicure, Extensions</p>
+              <div class="cat-modes">At-home &middot; Studio</div>
             </div>
           </article>
-          <article class="cat-card" data-group="beauty">
+          <article class="cat-card" data-group="beauty" data-keywords="skincare beauty facials treatments glow grooming">
             <img src="./images/categories/skincare-beauty.jpg" alt="Skincare and Beauty" />
             <div class="cat-body">
               <h3 class="cat-name">Skincare &amp; Beauty</h3>
-              <p class="cat-subs">Facials, Skincare Services, Beauty Treatments</p>
+              <p class="cat-subs">Facials, Skincare services, Beauty treatments</p>
+              <div class="cat-modes">At-home &middot; Studio</div>
             </div>
           </article>
-          <article class="cat-card" data-group="creative">
+          <article class="cat-card" data-group="creative" data-keywords="styling personal wardrobe fashion consultation">
             <img src="./images/categories/styling.jpg" alt="Styling" />
             <div class="cat-body">
               <h3 class="cat-name">Styling</h3>
-              <p class="cat-subs">Personal, Wardrobe, Fashion Consultation</p>
+              <p class="cat-subs">Personal styling, Wardrobe styling, Fashion consultation</p>
+              <div class="cat-modes">At-home &middot; Studio &middot; Remote</div>
             </div>
           </article>
-          <article class="cat-card" data-group="creative">
+          <article class="cat-card" data-group="creative" data-keywords="fashion design custom outfit alterations tailoring bridal">
             <img src="./images/categories/fashion-design.jpg" alt="Fashion Design" />
             <div class="cat-body">
               <h3 class="cat-name">Fashion Design</h3>
-              <p class="cat-subs">Custom Designs, Outfit Design, Alterations</p>
+              <p class="cat-subs">Custom designs, Outfit design, Alterations</p>
+              <div class="cat-modes">Studio &middot; Remote</div>
             </div>
           </article>
-          <article class="cat-card" data-group="creative">
+          <article class="cat-card" data-group="creative" data-keywords="interior design residential commercial room decor">
             <img src="./images/categories/interior-design.jpg" alt="Interior Design" />
             <div class="cat-body">
               <h3 class="cat-name">Interior Design</h3>
-              <p class="cat-subs">Residential, Commercial, Room Design</p>
+              <p class="cat-subs">Residential interiors, Commercial interiors, Room design</p>
+              <div class="cat-modes">At-home &middot; Studio &middot; Remote</div>
             </div>
           </article>
-          <article class="cat-card" data-group="creative">
+          <article class="cat-card" data-group="creative" data-keywords="graphic design logos branding posters digital invites">
             <img src="./images/categories/graphic-design.jpg" alt="Graphic Design" />
             <div class="cat-body">
               <h3 class="cat-name">Graphic Design</h3>
-              <p class="cat-subs">Logos, Branding, Posters, Digital Designs</p>
+              <p class="cat-subs">Logos, Branding, Posters, Digital designs</p>
+              <div class="cat-modes">Remote &middot; Studio</div>
             </div>
           </article>
-          <article class="cat-card" data-group="creative">
+          <article class="cat-card" data-group="creative" data-keywords="photography portraits weddings events product">
             <img src="./images/categories/photography.jpg" alt="Photography" />
             <div class="cat-body">
               <h3 class="cat-name">Photography</h3>
-              <p class="cat-subs">Portraits, Weddings, Events, Product</p>
+              <p class="cat-subs">Portraits, Weddings, Events, Product photography</p>
+              <div class="cat-modes">On-location &middot; Studio</div>
             </div>
           </article>
+        </div>
+
+        <div class="empty-filter" id="emptyFilter">
+          No categories match your search. <button type="button" class="btn btn-outline btn-sm" id="resetFilterBtn" style="margin-left:8px;">Show all 10 categories</button>
         </div>
       </div>
     </section>
@@ -714,123 +873,152 @@
     <!-- How VEYRA Works -->
     <section id="how-it-works" class="section section-white">
       <div class="container">
-        <p class="eyebrow">Marketplace Workflow</p>
-        <h2 class="section-title">From creative brief to confirmed booking</h2>
+        <p class="eyebrow">How VEYRA Works</p>
+        <h2 class="section-title">From inspiration to confirmed booking in four clear steps</h2>
         <p class="section-desc">
-          Built around structured 10-step requirements, rule-based matching, side-by-side proposals, and atomic booking creation.
+          Stop messaging dozens of accounts and repeating your brief. Share your requirements once and receive structured quotes.
         </p>
 
         <div class="steps-grid">
           <div class="card">
             <div class="step-num bg-lavender">01</div>
-            <h3>Post Requirement</h3>
-            <p>Customers select category &amp; specialty, upload inspiration photos, choose area, date, mode, and budget range.</p>
+            <h3>Post Your Requirement</h3>
+            <p>Select your category, upload inspiration photos, and set your city, preferred date, service mode, and budget range.</p>
           </div>
           <div class="card">
             <div class="step-num bg-blush">02</div>
-            <h3>Rule-Based Matching</h3>
-            <p>VEYRA filters eligible professionals by category, mode, city/radius, and availability and sends structured alerts.</p>
+            <h3>Matched Pros Respond</h3>
+            <p>Suitable professionals in your area review your brief and send itemised proposals with clear inclusions and pricing.</p>
           </div>
           <div class="card">
             <div class="step-num bg-peach">03</div>
-            <h3>Compare &amp; Chat</h3>
-            <p>Customers compare quoted prices, inclusions, exclusions, and portfolios side by side and message directly.</p>
+            <h3>Compare &amp; Message</h3>
+            <p>Compare portfolios, experience, inclusions, and schedules side by side, shortlist favourites, and chat directly.</p>
           </div>
           <div class="card">
             <div class="step-num bg-mint">04</div>
-            <h3>Atomic Booking &amp; Review</h3>
-            <p>Accepting a proposal atomically creates a booking, closes competing quotes, and unlocks verified reviews upon completion.</p>
+            <h3>Book &amp; Review</h3>
+            <p>Accept your chosen proposal to confirm your booking, track completion, and share a verified booking review.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Portals & Security -->
-    <section id="architecture" class="section">
+    <!-- Trust Pillars -->
+    <section class="section section-lavender">
       <div class="container">
-        <p class="eyebrow">Platform Architecture</p>
-        <h2 class="section-title">Three Role-Protected Portals</h2>
-        <p class="section-desc">
-          Enforced end-to-end by Firebase Authentication, custom claims, Firestore &amp; Storage Security Rules, and server transactions.
-        </p>
-
         <div class="three-col">
           <div class="card">
-            <h3>Customer Workspace</h3>
-            <p>10-step request wizard with drafts, proposal comparison, shortlisting, favourites, real-time chat, booking reschedules/cancellations, verified reviews, and account deletion.</p>
+            <h3>Admin-Reviewed Verification</h3>
+            <p>Verified badges are awarded only after administrative review of submitted identification and practice credentials.</p>
           </div>
           <div class="card">
-            <h3>Professional Studio</h3>
-            <p>12-step resumable onboarding, image/video portfolio manager, service catalogue, weekly &amp; date availability, private verification upload, request feed, proposal builder, and real analytics.</p>
+            <h3>Address &amp; Contact Privacy</h3>
+            <p>Open requests share only city and locality details. Exact venue addresses remain protected until a booking is confirmed.</p>
           </div>
           <div class="card">
-            <h3>Admin Operations Portal</h3>
-            <p>Server-enforced custom claims (`super_admin`, `operations_admin`, `verification_admin`, `support_admin`, `content_admin`), verification signed URLs, category/CMS editor, moderation, and audit logs.</p>
+            <h3>Booking-Verified Reviews</h3>
+            <p>Ratings and written reviews come exclusively from completed bookings—ensuring authentic, transparent feedback.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Live Deployment Guidance -->
-    <section id="deploy" class="section section-white">
+    <!-- Customers & Professionals -->
+    <section id="for-professionals" class="section">
       <div class="container">
-        <div class="deploy-box">
-          <div>
-            <h3>Connect Netlify or Vercel to launch the full interactive VEYRA app</h3>
-            <p>
-              GitHub Pages hosts this static showcase only. Connect <strong>webveyra-ux/veyra</strong> on <strong>Netlify</strong> (using the included <code>netlify.toml</code>) or <strong>Vercel</strong> and add your Firebase Web + Admin keys from <code>.env.example</code> to activate login, Firestore requests, Storage uploads, real-time chat, and `/admin`.
-            </p>
+        <div class="two-col">
+          <div class="spotlight-card bg-lavender">
+            <div>
+              <span class="pill">For Customers</span>
+              <h3>Have an event, shoot, or makeover coming up?</h3>
+              <p>
+                Describe what you imagine once and let qualified artists, stylists, and designers come to you with clear, comparable proposals.
+              </p>
+              <ul class="spotlight-list">
+                <li>Attach moodboards and reference photos directly to your brief</li>
+                <li>Compare inclusions, exclusions, timelines, and total pricing</li>
+                <li>Keep your phone number and home address private until booked</li>
+              </ul>
+            </div>
+            <div>
+              <a href="#categories" class="btn btn-primary">Explore Categories</a>
+            </div>
           </div>
-          <div style="display:flex; gap:10px; flex-wrap:wrap;">
-            <a
-              href="https://app.netlify.com/start"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="btn btn-primary"
-            >
-              Connect on Netlify
-            </a>
-            <a
-              href="https://github.com/webveyra-ux/veyra/blob/main/README.md"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="btn btn-outline"
-            >
-              Setup Guide (README)
-            </a>
+
+          <div class="spotlight-card bg-blush">
+            <div>
+              <span class="pill" style="background:#fff; color:#9D2E4D; border-color:#F7C7D3;">For Independent Professionals</span>
+              <h3>Grow your beauty, styling, or creative studio</h3>
+              <p>
+                Showcase your portfolio, define your travel radius and service modes, and receive customer briefs tailored to your specialty.
+              </p>
+              <ul class="spotlight-list">
+                <li>Curated image &amp; video portfolio with category tags</li>
+                <li>Flexible weekly hours, days off, and on-location or studio modes</li>
+                <li>Structured proposal builder with transparent terms</li>
+              </ul>
+            </div>
+            <div>
+              <a href="#how-it-works" class="btn btn-dark">See How Proposals Work</a>
+            </div>
           </div>
         </div>
+      </div>
+    </section>
 
-        <div style="margin-top:48px;">
-          <p class="eyebrow">Questions</p>
-          <h2 class="section-title">Deployment &amp; Platform FAQ</h2>
-          <div class="faq-list">
-            <div class="faq-item open">
-              <button type="button" class="faq-q">
-                <span>Why does GitHub Pages show this overview instead of the login &amp; dashboard pages?</span>
-                <span>+</span>
-              </button>
-              <div class="faq-a">
-                GitHub Pages only serves static HTML/CSS/JS files and cannot run Next.js server API routes (`/api/proposals/accept`, `/api/bookings/[id]/transition`, `/api/admin/*`) or hold server-side `FIREBASE_PRIVATE_KEY` secrets. Deploying the repository on Netlify or Vercel activates the full interactive marketplace.
-              </div>
+    <!-- FAQ -->
+    <section id="faq" class="section section-white">
+      <div class="container">
+        <div style="text-align:center; margin-bottom:28px;">
+          <p class="eyebrow">Answers</p>
+          <h2 class="section-title">Frequently Asked Questions</h2>
+        </div>
+
+        <div class="faq-list">
+          <div class="faq-item open">
+            <button type="button" class="faq-q">
+              <span>How does posting a request on VEYRA work?</span>
+              <span>+</span>
+            </button>
+            <div class="faq-a">
+              Share what you are imagining—select your category, upload reference photos, and specify your location, preferred date, service mode, and budget range. Suitable independent professionals respond with tailored proposals you can compare side by side.
             </div>
-            <div class="faq-item">
-              <button type="button" class="faq-q">
-                <span>What needs to be configured in Firebase after connecting Netlify or Vercel?</span>
-                <span>+</span>
-              </button>
-              <div class="faq-a">
-                Enable Firebase Email/Password Auth, Cloud Firestore, and Firebase Storage; deploy `firestore.rules`, `firestore.indexes.json`, and `storage.rules`; add your environment variables from `.env.example`; then run `npm run init:admin` and `npm run seed:categories`.
-              </div>
+          </div>
+          <div class="faq-item">
+            <button type="button" class="faq-q">
+              <span>What services are available on VEYRA?</span>
+              <span>+</span>
+            </button>
+            <div class="faq-a">
+              VEYRA covers 10 core categories: Makeup (bridal, party, engagement, photoshoot), Hair, Mehendi, Nails, Skincare &amp; Beauty, Styling, Fashion Design, Interior Design, Graphic Design, and Photography.
             </div>
-            <div class="faq-item">
-              <button type="button" class="faq-q">
-                <span>Is VEYRA ready for Android conversion later?</span>
-                <span>+</span>
-              </button>
-              <div class="faq-a">
-                Yes. VEYRA includes a PWA manifest, mobile-first touch layouts, safe-area inset CSS, custom modal dialogs, and a `capacitor.config.ts` template (`com.damayantinetwork.veyra`).
-              </div>
+          </div>
+          <div class="faq-item">
+            <button type="button" class="faq-q">
+              <span>Can professionals serve at-home, studio, and remote requests?</span>
+              <span>+</span>
+            </button>
+            <div class="faq-a">
+              Yes. Each professional sets their supported service modes—at-home / on-location, studio / salon visits, or remote consultations—along with their service areas and schedule.
+            </div>
+          </div>
+          <div class="faq-item">
+            <button type="button" class="faq-q">
+              <span>Is my street address or phone number shown publicly?</span>
+              <span>+</span>
+            </button>
+            <div class="faq-a">
+              No. Public listings and open requests display only city and locality information. Exact venue details are protected and shared only with the booked professional after a proposal is accepted.
+            </div>
+          </div>
+          <div class="faq-item">
+            <button type="button" class="faq-q">
+              <span>Are verification badges and reviews authentic?</span>
+              <span>+</span>
+            </button>
+            <div class="faq-a">
+              Yes. Verification badges appear only after administrative review of submitted credentials, and reviews can only be submitted for eligible completed bookings.
             </div>
           </div>
         </div>
@@ -839,39 +1027,113 @@
   </main>
 
   <footer class="footer">
-    <div class="container footer-inner">
-      <div>
-        <strong>VEYRA</strong> &mdash; A product of <strong>Damayanti Network</strong> (division of Damayanti Crest).
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="brand" style="margin-bottom:10px;">
+            <img src="./logo/veyra-mark.svg" alt="VEYRA logo" />
+            <div>
+              <div class="brand-title">VEYRA</div>
+              <div class="brand-sub">Discover. Connect. Create.</div>
+            </div>
+          </div>
+          <p style="margin:0 0 8px; max-width:360px;">
+            One request. Multiple professionals. Better choices. Connecting customers with independent beauty, styling, and creative professionals.
+          </p>
+          <p style="margin:0; font-size:12px; font-weight:600; color:var(--primary-dark);">
+            A product of Damayanti Network
+          </p>
+        </div>
+
+        <div>
+          <h4>Marketplace</h4>
+          <ul>
+            <li><a href="#categories">Explore Categories</a></li>
+            <li><a href="#how-it-works">How VEYRA Works</a></li>
+            <li><a href="#for-professionals">For Customers</a></li>
+            <li><a href="#for-professionals">For Professionals</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Information</h4>
+          <ul>
+            <li><a href="#faq">Frequently Asked Questions</a></li>
+            <li><a href="#top">Back to Top</a></li>
+          </ul>
+        </div>
       </div>
-      <div>
-        <a href="https://github.com/webveyra-ux/veyra" target="_blank" rel="noopener noreferrer">
-          GitHub Repository
-        </a>
-        &middot;
-        <a href="https://github.com/webveyra-ux/veyra/actions" target="_blank" rel="noopener noreferrer">
-          CI Status
-        </a>
+
+      <div class="footer-bottom">
+        <span>&copy; 2026 VEYRA &mdash; A product of Damayanti Network (division of Damayanti Crest).</span>
+        <span>Beauty, Styling &amp; Creative Services Marketplace</span>
       </div>
     </div>
   </footer>
 
   <script>
-    // Category tab filtering
+    const mobileBtn = document.getElementById('mobileMenuBtn');
+    const mobileDrawer = document.getElementById('mobileDrawer');
+    mobileBtn?.addEventListener('click', () => {
+      const open = mobileDrawer.classList.toggle('open');
+      mobileBtn.setAttribute('aria-expanded', String(open));
+    });
+    mobileDrawer?.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        mobileDrawer.classList.remove('open');
+        mobileBtn?.setAttribute('aria-expanded', 'false');
+      });
+    });
+
     const filterButtons = document.querySelectorAll('.filter-btn');
     const cards = document.querySelectorAll('.cat-card');
+    const searchInput = document.getElementById('categorySearchInput');
+    const searchForm = document.getElementById('categorySearchForm');
+    const filterCount = document.getElementById('filterCount');
+    const emptyFilter = document.getElementById('emptyFilter');
+    const resetBtn = document.getElementById('resetFilterBtn');
+    let activeGroup = 'all';
+
+    function applyCategoryFilters() {
+      const q = (searchInput?.value || '').trim().toLowerCase();
+      let visible = 0;
+      cards.forEach((card) => {
+        const matchesGroup = activeGroup === 'all' || card.getAttribute('data-group') === activeGroup;
+        const text = (card.textContent + ' ' + (card.getAttribute('data-keywords') || '')).toLowerCase();
+        const matchesQuery = !q || text.includes(q);
+        const show = matchesGroup && matchesQuery;
+        card.classList.toggle('hidden', !show);
+        if (show) visible += 1;
+      });
+      if (filterCount) {
+        filterCount.textContent = `Showing ${visible} categor${visible === 1 ? 'y' : 'ies'}`;
+      }
+      emptyFilter?.classList.toggle('visible', visible === 0);
+    }
+
     filterButtons.forEach((btn) => {
       btn.addEventListener('click', () => {
         filterButtons.forEach((b) => b.classList.remove('active'));
         btn.classList.add('active');
-        const filter = btn.getAttribute('data-filter');
-        cards.forEach((card) => {
-          const match = filter === 'all' || card.getAttribute('data-group') === filter;
-          card.classList.toggle('hidden', !match);
-        });
+        activeGroup = btn.getAttribute('data-filter') || 'all';
+        applyCategoryFilters();
       });
     });
 
-    // FAQ accordion
+    searchInput?.addEventListener('input', applyCategoryFilters);
+    searchForm?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      applyCategoryFilters();
+      document.getElementById('categories')?.scrollIntoView({ behavior: 'smooth' });
+    });
+
+    resetBtn?.addEventListener('click', () => {
+      if (searchInput) searchInput.value = '';
+      activeGroup = 'all';
+      filterButtons.forEach((b) => b.classList.toggle('active', b.getAttribute('data-filter') === 'all'));
+      applyCategoryFilters();
+    });
+
     document.querySelectorAll('.faq-q').forEach((btn) => {
       btn.addEventListener('click', () => {
         btn.parentElement.classList.toggle('open');
