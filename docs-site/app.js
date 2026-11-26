@@ -31,11 +31,11 @@ const CATEGORIES = [
   { slug: 'hair', name: 'Hair', group: 'beauty', image: './images/categories/hair.jpg', sub: 'Bridal styling, cuts, blowouts & care' },
   { slug: 'mehendi', name: 'Mehendi', group: 'beauty', image: './images/categories/mehendi.jpg', sub: 'Bridal, Arabic & minimal fine-line henna' },
   { slug: 'nails', name: 'Nails', group: 'beauty', image: './images/categories/nails.jpg', sub: 'Gel extensions, nail art & clean care' },
-  { slug: 'skincare-beauty', name: 'Skincare & Beauty', group: 'beauty', image: './images/categories/skincare.jpg', sub: 'Pre-event facials, brows & glow rituals' },
+  { slug: 'skincare-beauty', name: 'Skincare & Beauty', group: 'beauty', image: './images/categories/skincare-beauty.jpg', sub: 'Pre-event facials, brows & glow rituals' },
   { slug: 'styling', name: 'Styling', group: 'creative', image: './images/categories/styling.jpg', sub: 'Wardrobe curation, trousseau & shoots' },
-  { slug: 'fashion-design', name: 'Fashion Design', group: 'creative', image: './images/categories/fashion.jpg', sub: 'Bespoke couture, bridalwear & tailoring' },
-  { slug: 'interior-design', name: 'Interior Design', group: 'creative', image: './images/categories/interior.jpg', sub: 'Residential styling, room makeovers & decor' },
-  { slug: 'graphic-design', name: 'Graphic Design', group: 'creative', image: './images/categories/graphic.jpg', sub: 'Brand identity, invitations & print systems' },
+  { slug: 'fashion-design', name: 'Fashion Design', group: 'creative', image: './images/categories/fashion-design.jpg', sub: 'Bespoke couture, bridalwear & tailoring' },
+  { slug: 'interior-design', name: 'Interior Design', group: 'creative', image: './images/categories/interior-design.jpg', sub: 'Residential styling, room makeovers & decor' },
+  { slug: 'graphic-design', name: 'Graphic Design', group: 'creative', image: './images/categories/graphic-design.jpg', sub: 'Brand identity, invitations & print systems' },
   { slug: 'photography', name: 'Photography', group: 'creative', image: './images/categories/photography.jpg', sub: 'Weddings, portraits & brand lookbooks' }
 ];
 

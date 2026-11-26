@@ -28,6 +28,7 @@
       --shadow-md: 0 14px 36px rgba(91, 62, 181, 0.12);
     }
     * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
     html { scroll-behavior: smooth; }
     body {
       margin: 0;
@@ -572,7 +573,7 @@
   </section>
 
   <!-- ==================== MODALS ==================== -->
-  <div class="modal-backdrop" id="authModal" aria-hidden="true">
+  <div class="modal-backdrop" id="authModal" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="modal-card" style="max-width:460px;">
       <button type="button" class="modal-close" data-close-modal="authModal" aria-label="Close">✕</button>
       <h2 id="authModalTitle" style="margin-top:0;">Welcome to VEYRA</h2>
@@ -614,14 +615,14 @@
     </div>
   </div>
 
-  <div class="modal-backdrop" id="proDetailModal" aria-hidden="true">
+  <div class="modal-backdrop" id="proDetailModal" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="modal-card">
       <button type="button" class="modal-close" data-close-modal="proDetailModal" aria-label="Close">✕</button>
       <div id="proModalBody"></div>
     </div>
   </div>
 
-  <div class="modal-backdrop" id="bookingModal" aria-hidden="true">
+  <div class="modal-backdrop" id="bookingModal" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="modal-card" style="max-width:480px;">
       <button type="button" class="modal-close" data-close-modal="bookingModal" aria-label="Close">✕</button>
       <h2 style="margin-top:0;">Confirm Service Booking</h2>
